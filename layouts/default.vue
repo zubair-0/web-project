@@ -53,11 +53,9 @@
         <v-icon>menu</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-content>
+    
+    <nuxt />
+
     <v-navigation-drawer
       temporary
       :right="right"
@@ -88,7 +86,8 @@
         fixed: false,
         items: [
           { icon: 'apps', title: 'Welcome', to: '/' },
-          { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
+          { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
+          { icon: 'favorite_border', title: 'Attractions', to: '/attractions' }
         ],
         miniVariant: false,
         right: true,
