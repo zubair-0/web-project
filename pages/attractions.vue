@@ -84,375 +84,195 @@
 <script>
 export default {
     data () {
-    return {
-      attractionPics: [
-        {
-          src: require('@/assets/attractions/uae.jpg'),
-          title: "Dubai",
-          text: "Visit The Tallest Building In The World"
-        },
-        {
-          src: require('@/assets/attractions/turkey.jpg'),
-          title: "Turkey",
-          text: "Check Out The Heritage Of The Ottoman Empire"
-        },
-        {
-          src: require('@/assets/attractions/italy.jpg'),
-          title: "Italy",
-          text: "See The Architectural Beauty Of The Romans"
-        },
-        {
-          src: require('@/assets/attractions/greece.jpg'),
-          title: "Greece",
-          text: "We Provide You With The Great Views"
+        return {
+            attractionPics: [
+                {
+                    src: require('@/assets/attractions/uae.jpg'),
+                    title: "Dubai",
+                    text: "Visit The Tallest Building In The World"
+                },
+                {
+                    src: require('@/assets/attractions/turkey.jpg'),
+                    title: "Turkey",
+                    text: "Check Out The Heritage Of The Ottoman Empire"
+                },
+                {
+                    src: require('@/assets/attractions/italy.jpg'),
+                    title: "Italy",
+                    text: "See The Architectural Beauty Of The Romans"
+                },
+                {
+                    src: require('@/assets/attractions/greece.jpg'),
+                    title: "Greece",
+                    text: "We Provide You With The Great Views"
+                }
+            ],
+            attractions: [
+                {
+                    title: 'Burj Khalifa',
+                    city: 'Dubai',
+                    country: 'UAE',
+                    image: require('@/assets/attractions/burj.jpg')
+                },
+                {
+                    title: 'Eiffel Tower',
+                    city: 'Paris',
+                    country: 'France',
+                    image: require('@/assets/attractions/eiffel.jpg')
+                },
+                {
+                    title: 'Toronto Tower',
+                    city: 'Toronto',
+                    country: 'Canada',
+                    image: require('@/assets/attractions/tower.jpg')
+                },
+                {
+                    title: 'Palm Jumeirah',
+                    city: 'Dubai',
+                    country: 'UAE',
+                    image: require('@/assets/attractions/palm.jpg')
+                },
+                {
+                    title: 'Shibuya',
+                    city: 'Tokyo',
+                    country: 'Japan',
+                    image: require('@/assets/attractions/shibu.jpg')
+                },
+                {
+                    title: 'Niagara Falls',
+                    city: 'Toronto',
+                    country: 'Canada',
+                    image: require('@/assets/attractions/niagara.jpg')
+                },
+                {
+                    title: 'Mount Fuji',
+                    city: 'Honshu Island',
+                    country: 'Japan',
+                    image: require('@/assets/attractions/fuji.jpg')
+                },
+                {
+                    title: 'Atlantis',
+                    city: 'Dubai',
+                    country: 'UAE',
+                    image: require('@/assets/attractions/atlantis.jpg')
+                },
+                {
+                    title: 'Arc de Triomphe',
+                    city: 'Paris',
+                    country: 'France',
+                    image: require('@/assets/attractions/arc.jpg')
+                },
+                {
+                    title: 'The Atsuta Shrine',
+                    city: 'Nagoya',
+                    country: 'Japan',
+                    image: require('@/assets/attractions/nagoya.jpg')
+                },
+                {
+                    title: 'Le Sacre Coeur',
+                    city: 'Paris',
+                    country: 'France',
+                    image: require('@/assets/attractions/paris.jpg')
+                },
+                {
+                    title: 'Marché Bonsecours',
+                    city: 'Montreal',
+                    country: 'Canada',
+                    image: require('@/assets/attractions/montreal.jpg')
+                }
+            ],
+            filteredAttractions: [
+                {
+                    title: 'Burj Khalifa',
+                    city: 'Dubai',
+                    country: 'UAE',
+                    image: require('@/assets/attractions/burj.jpg')
+                },
+                {
+                    title: 'Eiffel Tower',
+                    city: 'Paris',
+                    country: 'France',
+                    image: require('@/assets/attractions/eiffel.jpg')
+                },
+                {
+                    title: 'Toronto Tower',
+                    city: 'Toronto',
+                    country: 'Canada',
+                    image: require('@/assets/attractions/tower.jpg')
+                },
+                {
+                    title: 'Palm Jumeirah',
+                    city: 'Dubai',
+                    country: 'UAE',
+                    image: require('@/assets/attractions/palm.jpg')
+                },
+                {
+                    title: 'Shibuya',
+                    city: 'Tokyo',
+                    country: 'Japan',
+                    image: require('@/assets/attractions/shibu.jpg')
+                },
+                {
+                    title: 'Niagara Falls',
+                    city: 'Toronto',
+                    country: 'Canada',
+                    image: require('@/assets/attractions/niagara.jpg')
+                },
+                {
+                    title: 'Mount Fuji',
+                    city: 'Honshu Island',
+                    country: 'Japan',
+                    image: require('@/assets/attractions/fuji.jpg')
+                },
+                {
+                    title: 'Atlantis',
+                    city: 'Dubai',
+                    country: 'UAE',
+                    image: require('@/assets/attractions/atlantis.jpg')
+                },
+                {
+                    title: 'Arc de Triomphe',
+                    city: 'Paris',
+                    country: 'France',
+                    image: require('@/assets/attractions/arc.jpg')
+                },
+                {
+                    title: 'The Atsuta Shrine',
+                    city: 'Nagoya',
+                    country: 'Japan',
+                    image: require('@/assets/attractions/nagoya.jpg')
+                },
+                {
+                    title: 'Le Sacre Coeur',
+                    city: 'Paris',
+                    country: 'France',
+                    image: require('@/assets/attractions/paris.jpg')
+                },
+                {
+                    title: 'Marché Bonsecours',
+                    city: 'Montreal',
+                    country: 'Canada',
+                    image: require('@/assets/attractions/montreal.jpg')
+                }
+            ],
+            search: ''
+        };
+    },
+    methods: {
+        filterResults: function () {
+            this.filteredAttractions = this.attractions.filter(resultant => {
+                if (resultant.title.toLowerCase().includes(this.search.toLowerCase())) {
+                    return true;
+                }
+                if (resultant.city.toLowerCase().includes(this.search.toLowerCase())) {
+                    return true;
+                }
+                if (resultant.country.toLowerCase().includes(this.search.toLowerCase())) {
+                    return true;
+                }
+                return false;
+            });
         }
-      ],
-      items: [
-        {
-          icon: 'home',
-          title: 'Home',
-          disabled: true,
-          call: this.homeClicked
-        },
-        {
-          icon: 'favorite_border',
-          title: 'Attractions',
-          disabled: false,
-          call: this.attractionsClicked
-        },
-        {
-          icon: 'restaurant',
-          title: 'Restaurants',
-          disabled: false,
-          call: this.restaurantsClicked
-        },
-        {
-          icon: 'hotel',
-          title: 'Accomodation',
-          disabled: false,
-          call: this.accomodationClicked
-        },
-        {
-          icon: 'flight_takeoff',
-          title: 'Travel',
-          disabled: false,
-          call: this.travelClicked
-        }
-      ],
-      adders: [
-        {
-          icon: 'favorite_border',
-          title: 'Attractions',
-          call: this.addAttraction
-        },
-        {
-          icon: 'restaurant',
-          title: 'Restaurants',
-          call: this.addRestaurant
-        },
-        {
-          icon: 'hotel',
-          title: 'Accomodation',
-          call: this.addAccomodation
-        },
-        {
-          icon: 'flight_takeoff',
-          title: 'Travel',
-          disabled: false,
-          call: this.addTravel
-        }
-      ],
-      buttons: [
-        {
-          icon: 'input',
-          title: 'Login',
-          call: this.login
-        },
-        {
-          icon: 'create',
-          title: 'SignUp',
-          call: this.signup
-        }
-      ],
-      attractions: [
-        {
-          title: 'Burj Khalifa',
-          city: 'Dubai',
-          country: 'UAE',
-          image: require('@/assets/attractions/burj.jpg')
-        },
-        {
-          title: 'Eiffel Tower',
-          city: 'Paris',
-          country: 'France',
-          image: require('@/assets/attractions/eiffel.jpg')
-        },
-        {
-          title: 'Toronto Tower',
-          city: 'Toronto',
-          country: 'Canada',
-          image: require('@/assets/attractions/tower.jpg')
-        },
-        {
-          title: 'Palm Jumeirah',
-          city: 'Dubai',
-          country: 'UAE',
-          image: require('@/assets/attractions/palm.jpg')
-        },
-        {
-          title: 'Shibuya',
-          city: 'Tokyo',
-          country: 'Japan',
-          image: require('@/assets/attractions/shibu.jpg')
-        },
-        {
-          title: 'Niagara Falls',
-          city: 'Toronto',
-          country: 'Canada',
-          image: require('@/assets/attractions/niagara.jpg')
-        },
-        {
-          title: 'Mount Fuji',
-          city: 'Honshu Island',
-          country: 'Japan',
-          image: require('@/assets/attractions/fuji.jpg')
-        },
-        {
-          title: 'Atlantis',
-          city: 'Dubai',
-          country: 'UAE',
-          image: require('@/assets/attractions/atlantis.jpg')
-        },
-        {
-          title: 'Arc de Triomphe',
-          city: 'Paris',
-          country: 'France',
-          image: require('@/assets/attractions/arc.jpg')
-        },
-        {
-          title: 'The Atsuta Shrine',
-          city: 'Nagoya',
-          country: 'Japan',
-          image: require('@/assets/attractions/nagoya.jpg')
-        },
-        {
-          title: 'Le Sacre Coeur',
-          city: 'Paris',
-          country: 'France',
-          image: require('@/assets/attractions/paris.jpg')
-        },
-        {
-          title: 'Marché Bonsecours',
-          city: 'Montreal',
-          country: 'Canada',
-          image: require('@/assets/attractions/montreal.jpg')
-        }
-      ],
-      
-      homePage: true,
-      attractionsPage: false,
-      restaurantsPage: false,
-      accomodationPage: false,
-      travelPage: false,
-      
-      addAttractionDialog: false,
-      addRestaurantDialog: false,
-      addAccomodationDialog: false,
-      addTravelDialog: false,
-      loginDialog: false,
-      signupDialog: false,
-      
-      showFilters: false,
-      filteredAttractions: [
-          {
-          title: 'Burj Khalifa',
-          city: 'Dubai',
-          country: 'UAE',
-          image: require('@/assets/attractions/burj.jpg')
-        },
-        {
-          title: 'Eiffel Tower',
-          city: 'Paris',
-          country: 'France',
-          image: require('@/assets/attractions/eiffel.jpg')
-        },
-        {
-          title: 'Toronto Tower',
-          city: 'Toronto',
-          country: 'Canada',
-          image: require('@/assets/attractions/tower.jpg')
-        },
-        {
-          title: 'Palm Jumeirah',
-          city: 'Dubai',
-          country: 'UAE',
-          image: require('@/assets/attractions/palm.jpg')
-        },
-        {
-          title: 'Shibuya',
-          city: 'Tokyo',
-          country: 'Japan',
-          image: require('@/assets/attractions/shibu.jpg')
-        },
-        {
-          title: 'Niagara Falls',
-          city: 'Toronto',
-          country: 'Canada',
-          image: require('@/assets/attractions/niagara.jpg')
-        },
-        {
-          title: 'Mount Fuji',
-          city: 'Honshu Island',
-          country: 'Japan',
-          image: require('@/assets/attractions/fuji.jpg')
-        },
-        {
-          title: 'Atlantis',
-          city: 'Dubai',
-          country: 'UAE',
-          image: require('@/assets/attractions/atlantis.jpg')
-        },
-        {
-          title: 'Arc de Triomphe',
-          city: 'Paris',
-          country: 'France',
-          image: require('@/assets/attractions/arc.jpg')
-        },
-        {
-          title: 'The Atsuta Shrine',
-          city: 'Nagoya',
-          country: 'Japan',
-          image: require('@/assets/attractions/nagoya.jpg')
-        },
-        {
-          title: 'Le Sacre Coeur',
-          city: 'Paris',
-          country: 'France',
-          image: require('@/assets/attractions/paris.jpg')
-        },
-        {
-          title: 'Marché Bonsecours',
-          city: 'Montreal',
-          country: 'Canada',
-          image: require('@/assets/attractions/montreal.jpg')
-        }
-      ],
-      search: '',
-      clipped: true,
-      drawer: true,
-      fixed: false,
-      
-      miniVariant: true,
-      right: true,
-      rightDrawer: false,
-      title: 'CruiseAide',
-      
-      valid: true,
-      name: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 20) || 'Name must be less than 20 characters'
-      ],
-      email: '',
-      emailRules: [
-        v => !!v || 'Email is required',
-        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email must be valid'
-      ]
-    };
-  },
-  methods: {
-    add: function () {
-      this.addDialog = true;
-    },
-    login: function () {
-      this.loginDialog = true;
-    },
-    signup: function () {
-      this.signupDialog = true;
-    },
-    addAttraction: function () {
-      this.addAttractionDialog = true;
-    },
-    addRestaurant: function () {
-      this.addRestaurantDialog = true;
-    },
-    addAccomodation: function () {
-      this.addAccomodationDialog = true;
-    },
-    addTravel: function () {
-      this.addTravelDialog = true;
-    },
-    disable: function () {
-      this.items[0].disabled = false;
-      this.items[1].disabled = false;
-      this.items[2].disabled = false;
-      this.items[3].disabled = false;
-      this.items[4].disabled = false;
-    },
-    homeClicked: function () {
-      this.disable();
-      this.items[0].disabled = true;
-      this.homePage = true;
-      this.attractionsPage = false;
-      this.restaurantsPage = false;
-      this.accomodationPage = false;
-      this.travelPage = false;
-    },
-    attractionsClicked: function () {
-      this.disable();
-      this.items[1].disabled = true;
-      this.homePage = false;
-      this.attractionsPage = true;
-      this.restaurantsPage = false;
-      this.accomodationPage = false;
-      this.travelPage = false;
-      this.filteredAttractions = this.attractions;
-    },
-    restaurantsClicked: function () {
-      this.disable();
-      this.items[2].disabled = true;
-      this.homePage = false;
-      this.attractionsPage = false;
-      this.restaurantsPage = true;
-      this.accomodationPage = false;
-      this.travelPage = false;
-      this.filteredRestaurants = this.restaurants;
-    },
-    accomodationClicked: function () {
-      this.disable();
-      this.items[3].disabled = true;
-      this.homePage = false;
-      this.attractionsPage = false;
-      this.restaurantsPage = false;
-      this.accomodationPage = true;
-      this.travelPage = false;
-      this.filteredAccomodations = this.accomodations;
-    },
-    travelClicked: function () {
-      this.disable();
-      this.items[4].disabled = true;
-      this.homePage = false;
-      this.attractionsPage = false;
-      this.restaurantsPage = false;
-      this.accomodationPage = false;
-      this.travelPage = true;
-      this.filteredTravels = this.travels;
-    },
-    filterResults: function () {
-      this.filteredAttractions = this.attractions.filter(resultant => {
-          if (resultant.title.toLowerCase().includes(this.search.toLowerCase())) {
-            return true;
-          }
-          if (resultant.city.toLowerCase().includes(this.search.toLowerCase())) {
-            return true;
-          }
-          if (resultant.country.toLowerCase().includes(this.search.toLowerCase())) {
-            return true;
-          }
-          return false;
-        });
     }
-  },
-  name: 'App'
 }
 </script>

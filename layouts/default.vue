@@ -85,14 +85,16 @@
         drawer: true,
         fixed: false,
         items: [
-          { icon: 'apps', title: 'Welcome', to: '/' },
-          { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
-          { icon: 'favorite_border', title: 'Attractions', to: '/attractions' }
+          { icon: 'home', title: 'Home', to: '/' },
+          { icon: 'favorite_border', title: 'Attractions', to: '/attractions' },
+          { icon: 'restaurant', title: 'Restaurants', to: '/restaurants' },
+          { icon: 'hotel', title: 'Accomodotions', to: '/accomodations' },
+          { icon: 'flight_takeoff', title: 'Travels', to: '/travels' }
         ],
         miniVariant: false,
         right: true,
         rightDrawer: false,
-        title: 'Vuetify.js'
+        title: 'CruiseAide'
       }
     }
   }
