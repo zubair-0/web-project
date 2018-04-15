@@ -127,7 +127,7 @@
           </v-flex>
       </section>
       <section>
-        <v-parallax :src="require('@/assets/mainpage.jpg')" height="550">
+        <v-parallax :src="require('@/static/mainpage.jpg')" height="550">
           <v-layout column align-center justify-center>
             <div class="headline white--text display-1 mb-3 text-xs-center">Guaranteed The Best Quality Food</div>
             <h2>Start Your Food Hunt Today</h2>
@@ -152,22 +152,22 @@ export default {
         return {
             restaurantPics: [
                 {
-                    src: require('@/assets/restaurants/rest1.jpg'),
+                    src: require('@/static/restaurants/rest1.jpg'),
                     title: "Indoor",
                     text: "We Recommend The Best Indoor Restaurants"
                 },
                 {
-                    src: require('@/assets/restaurants/rest2.jpg'),
+                    src: require('@/static/restaurants/rest2.jpg'),
                     title: "Outdoor",
                     text: "In Mood For Outdoor Sitting? We Got You Covered"
                 },
                 {
-                    src: require('@/assets/restaurants/rest3.jpg'),
+                    src: require('@/static/restaurants/rest3.jpg'),
                     title: "Cheaper",
                     text: "Running Low On Budget? We Got Just The Places For You"
                 },
                 {
-                    src: require('@/assets/restaurants/rest4.jpg'),
+                    src: require('@/static/restaurants/rest4.jpg'),
                     title: "Royalty",
                     text: "Experience The Most Luxurious Restaurants Around The World"
                 }
@@ -179,7 +179,7 @@ export default {
                     country: 'UAE',
                     features: ['Buffet', 'Event Organizers', 'Takeout', 'Event Organizers'],
                     cuisine: ['Arabic', 'English', 'Japanese'],
-                    image: require('@/assets/restaurants/bkrestaurant.jpg'),
+                    image: require('@/static/restaurants/bkrestaurant.jpg'),
                     rating: 4.8
                 },
                 {
@@ -188,7 +188,7 @@ export default {
                     country: 'UK',
                     features: ['Buffet', 'Takeout', 'Event Organizers'],
                     cuisine: ['Pakistani', 'Chinese', 'Italian'],
-                    image: require('@/assets/restaurants/snp.jpg'),
+                    image: require('@/static/restaurants/snp.jpg'),
                     rating: 4.2
                 },
                 {
@@ -197,7 +197,7 @@ export default {
                     country: 'USA',
                     features: ['Delivery', 'Takeout', 'Bulk Order'],
                     cuisine: ['Italian', 'English'],
-                    image: require('@/assets/restaurants/pjs.jpg'),
+                    image: require('@/static/restaurants/pjs.jpg'),
                     rating: 4.5
                 },
                 {
@@ -206,7 +206,7 @@ export default {
                     country: 'Japan',
                     features: ['Delivery', 'Takeout'],
                     cuisine: ['Japanese', 'Chinese'],
-                    image: require('@/assets/restaurants/oko.jpg'),
+                    image: require('@/static/restaurants/oko.jpg'),
                     rating: 5
                 },
                 {
@@ -215,7 +215,7 @@ export default {
                     country: 'Pakistan',
                     features: ['Delivery', 'Takeout', 'Bulk Order'],
                     cuisine: ['Pakistani', 'Chinese'],
-                    image: require('@/assets/restaurants/biryani.jpg'),
+                    image: require('@/static/restaurants/biryani.jpg'),
                     rating: 3.6
                 },
                 {
@@ -224,7 +224,7 @@ export default {
                     country: 'Malaysia',
                     features: ['Event Organizers'],
                     cuisine: ['Arabic', 'English', 'Japanese'],
-                    image: require('@/assets/restaurants/kuala.jpg'),
+                    image: require('@/static/restaurants/kuala.jpg'),
                     rating: 4.7
                 },
                 {
@@ -233,7 +233,7 @@ export default {
                     country: 'Pakistan',
                     features: ['Buffet'],
                     cuisine: ['Pakistani', 'Chinese', 'Arabic'],
-                    image: require('@/assets/restaurants/ziafat.jpg'),
+                    image: require('@/static/restaurants/ziafat.jpg'),
                     rating: 3.8
                 }
             ],
@@ -249,7 +249,7 @@ export default {
                     country: 'UAE',
                     features: ['Buffet', 'Event Organizers', 'Takeout', 'Event Organizers'],
                     cuisine: ['Arabic', 'English', 'Japanese'],
-                    image: require('@/assets/restaurants/bkrestaurant.jpg'),
+                    image: require('@/static/restaurants/bkrestaurant.jpg'),
                     rating: 4.8
                 },
                 {
@@ -258,7 +258,7 @@ export default {
                     country: 'UK',
                     features: ['Buffet', 'Takeout', 'Event Organizers'],
                     cuisine: ['Pakistani', 'Chinese', 'Italian'],
-                    image: require('@/assets/restaurants/snp.jpg'),
+                    image: require('@/static/restaurants/snp.jpg'),
                     rating: 4.2
                 },
                 {
@@ -267,7 +267,7 @@ export default {
                     country: 'USA',
                     features: ['Delivery', 'Takeout', 'Bulk Order'],
                     cuisine: ['Italian', 'English'],
-                    image: require('@/assets/restaurants/pjs.jpg'),
+                    image: require('@/static/restaurants/pjs.jpg'),
                     rating: 4.5
                 },
                 {
@@ -276,7 +276,7 @@ export default {
                     country: 'Japan',
                     features: ['Delivery', 'Takeout'],
                     cuisine: ['Japanese', 'Chinese'],
-                    image: require('@/assets/restaurants/oko.jpg'),
+                    image: require('@/static/restaurants/oko.jpg'),
                     rating: 5
                 },
                 {
@@ -285,7 +285,7 @@ export default {
                     country: 'Pakistan',
                     features: ['Delivery', 'Takeout', 'Bulk Order'],
                     cuisine: ['Pakistani', 'Chinese'],
-                    image: require('@/assets/restaurants/biryani.jpg'),
+                    image: require('@/static/restaurants/biryani.jpg'),
                     rating: 3.6
                 },
                 {
@@ -294,7 +294,7 @@ export default {
                     country: 'Malaysia',
                     features: ['Event Organizers'],
                     cuisine: ['Arabic', 'English', 'Japanese'],
-                    image: require('@/assets/restaurants/kuala.jpg'),
+                    image: require('@/static/restaurants/kuala.jpg'),
                     rating: 4.7
                 },
                 {
@@ -303,7 +303,7 @@ export default {
                     country: 'Pakistan',
                     features: ['Buffet'],
                     cuisine: ['Pakistani', 'Chinese', 'Arabic'],
-                    image: require('@/assets/restaurants/ziafat.jpg'),
+                    image: require('@/static/restaurants/ziafat.jpg'),
                     rating: 3.8
                 }
             ],

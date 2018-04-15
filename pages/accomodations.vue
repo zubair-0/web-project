@@ -149,7 +149,7 @@
         </v-layout>
       </section>
       <section>
-        <v-parallax :src="require('@/assets/center.jpg')" height="550">
+        <v-parallax :src="require('@/static/center.jpg')" height="550">
           <v-layout column align-center justify-center>
             <div class="headline white--text display-1 mb-3 text-xs-center">Luxurious Living In Affordable Prices</div>
             <h2>Get Your Dream Shack Today</h2>
@@ -174,22 +174,22 @@ export default {
         return {
             accomodationPics: [
                 {
-                    src: require('@/assets/accomodation/acomo1.jpg'),
+                    src: require('@/static/accomodation/acomo1.jpg'),
                     title: "Wanna See Snow?",
                     text: "Stay In Cold Areas Of The World, But In Warm Places"
                 },
                 {
-                    src: require('@/assets/accomodation/acomo2.jpg'),
+                    src: require('@/static/accomodation/acomo2.jpg'),
                     title: "Luxurious Living",
                     text: "We Make The Most Luxurious Hotels Affordable Just For You"
                 },
                 {
-                    src: require('@/assets/accomodation/acomo3.jpg'),
+                    src: require('@/static/accomodation/acomo3.jpg'),
                     title: "Great Views",
                     text: "We Recommend The Hotels With The Most Amazing Views"
                 },
                 {
-                    src: require('@/assets/accomodation/acomo4.jpg'),
+                    src: require('@/static/accomodation/acomo4.jpg'),
                     title: "Islands",
                     text: "Experience The Amazing Life On An Island"
                 }
@@ -202,7 +202,7 @@ export default {
                     features: ['Gym', 'Spa', 'Swimming Pool', 'Penthouse', 'Golf Course'],
                     price: 1500,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/ephotel.jpg'),
+                    image: require('@/static/accomodation/ephotel.jpg'),
                     rating: 5
                 },
                 {
@@ -212,7 +212,7 @@ export default {
                     features: ['Gym', 'Spa', 'Swimming Pool', 'Penthouse'],
                     price: 2000,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/bkhotel.jpg'),
+                    image: require('@/static/accomodation/bkhotel.jpg'),
                     rating: 4.5
                 },
                 {
@@ -222,7 +222,7 @@ export default {
                     features: ['Gym', 'Swimming Pool', 'Penthouse'],
                     price: 1200,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/tphotel.jpg'),
+                    image: require('@/static/accomodation/tphotel.jpg'),
                     rating: 4.2
                 },
                 {
@@ -232,7 +232,7 @@ export default {
                     features: ['Spa', 'Swimming Pool', 'Golf Course'],
                     price: 950,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/twehotel.jpg'),
+                    image: require('@/static/accomodation/twehotel.jpg'),
                     rating: 4.7
                 },
                 {
@@ -242,7 +242,7 @@ export default {
                     features: [],
                     price: 500,
                     type: 'RentalHome',
-                    image: require('@/assets/accomodation/wdroom.jpg'),
+                    image: require('@/static/accomodation/wdroom.jpg'),
                     rating: 3.8
                 },
                 {
@@ -252,7 +252,7 @@ export default {
                     features: ['Gym', 'Swimming Pool', 'Golf Course'],
                     price: 600,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/tbhotel.jpg'),
+                    image: require('@/static/accomodation/tbhotel.jpg'),
                     rating: 3.9
                 }
             ],
@@ -270,7 +270,7 @@ export default {
                     features: ['Gym', 'Spa', 'Swimming Pool', 'Penthouse', 'Golf Course'],
                     price: 1500,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/ephotel.jpg'),
+                    image: require('@/static/accomodation/ephotel.jpg'),
                     rating: 5
                 },
                 {
@@ -280,7 +280,7 @@ export default {
                     features: ['Gym', 'Spa', 'Swimming Pool', 'Penthouse'],
                     price: 2000,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/bkhotel.jpg'),
+                    image: require('@/static/accomodation/bkhotel.jpg'),
                     rating: 4.5
                 },
                 {
@@ -290,7 +290,7 @@ export default {
                     features: ['Gym', 'Swimming Pool', 'Penthouse'],
                     price: 1200,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/tphotel.jpg'),
+                    image: require('@/static/accomodation/tphotel.jpg'),
                     rating: 4.2
                 },
                 {
@@ -300,7 +300,7 @@ export default {
                     features: ['Spa', 'Swimming Pool', 'Golf Course'],
                     price: 950,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/twehotel.jpg'),
+                    image: require('@/static/accomodation/twehotel.jpg'),
                     rating: 4.7
                 },
                 {
@@ -310,7 +310,7 @@ export default {
                     features: [],
                     price: 500,
                     type: 'RentalHome',
-                    image: require('@/assets/accomodation/wdroom.jpg'),
+                    image: require('@/static/accomodation/wdroom.jpg'),
                     rating: 3.8
                 },
                 {
@@ -320,7 +320,7 @@ export default {
                     features: ['Gym', 'Swimming Pool', 'Golf Course'],
                     price: 600,
                     type: 'Hotel',
-                    image: require('@/assets/accomodation/tbhotel.jpg'),
+                    image: require('@/static/accomodation/tbhotel.jpg'),
                     rating: 3.9
                 }
             ],

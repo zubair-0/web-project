@@ -62,7 +62,7 @@
           </v-flex>
       </section>
       <section>
-        <v-parallax :src="require('@/assets/flamingo.jpg')" height="550">
+        <v-parallax :src="require('@/static/flamingo.jpg')" height="550">
           <v-layout column align-center justify-center>
             <div class="headline white--text display-1 mb-3 text-xs-center">Sightseeing Has Never Been More Fun</div>
             <h2>Don't Miss Out And Start Exploring Today</h2>
@@ -87,22 +87,22 @@ export default {
         return {
             attractionPics: [
                 {
-                    src: require('@/assets/attractions/uae.jpg'),
+                    src: require('@/static/attractions/uae.jpg'),
                     title: "Dubai",
                     text: "Visit The Tallest Building In The World"
                 },
                 {
-                    src: require('@/assets/attractions/turkey.jpg'),
+                    src: require('@/static/attractions/turkey.jpg'),
                     title: "Turkey",
                     text: "Check Out The Heritage Of The Ottoman Empire"
                 },
                 {
-                    src: require('@/assets/attractions/italy.jpg'),
+                    src: require('@/static/attractions/italy.jpg'),
                     title: "Italy",
                     text: "See The Architectural Beauty Of The Romans"
                 },
                 {
-                    src: require('@/assets/attractions/greece.jpg'),
+                    src: require('@/static/attractions/greece.jpg'),
                     title: "Greece",
                     text: "We Provide You With The Great Views"
                 }
@@ -112,73 +112,73 @@ export default {
                     title: 'Burj Khalifa',
                     city: 'Dubai',
                     country: 'UAE',
-                    image: require('@/assets/attractions/burj.jpg')
+                    image: require('@/static/attractions/burj.jpg')
                 },
                 {
                     title: 'Eiffel Tower',
                     city: 'Paris',
                     country: 'France',
-                    image: require('@/assets/attractions/eiffel.jpg')
+                    image: require('@/static/attractions/eiffel.jpg')
                 },
                 {
                     title: 'Toronto Tower',
                     city: 'Toronto',
                     country: 'Canada',
-                    image: require('@/assets/attractions/tower.jpg')
+                    image: require('@/static/attractions/tower.jpg')
                 },
                 {
                     title: 'Palm Jumeirah',
                     city: 'Dubai',
                     country: 'UAE',
-                    image: require('@/assets/attractions/palm.jpg')
+                    image: require('@/static/attractions/palm.jpg')
                 },
                 {
                     title: 'Shibuya',
                     city: 'Tokyo',
                     country: 'Japan',
-                    image: require('@/assets/attractions/shibu.jpg')
+                    image: require('@/static/attractions/shibu.jpg')
                 },
                 {
                     title: 'Niagara Falls',
                     city: 'Toronto',
                     country: 'Canada',
-                    image: require('@/assets/attractions/niagara.jpg')
+                    image: require('@/static/attractions/niagara.jpg')
                 },
                 {
                     title: 'Mount Fuji',
                     city: 'Honshu Island',
                     country: 'Japan',
-                    image: require('@/assets/attractions/fuji.jpg')
+                    image: require('@/static/attractions/fuji.jpg')
                 },
                 {
                     title: 'Atlantis',
                     city: 'Dubai',
                     country: 'UAE',
-                    image: require('@/assets/attractions/atlantis.jpg')
+                    image: require('@/static/attractions/atlantis.jpg')
                 },
                 {
                     title: 'Arc de Triomphe',
                     city: 'Paris',
                     country: 'France',
-                    image: require('@/assets/attractions/arc.jpg')
+                    image: require('@/static/attractions/arc.jpg')
                 },
                 {
                     title: 'The Atsuta Shrine',
                     city: 'Nagoya',
                     country: 'Japan',
-                    image: require('@/assets/attractions/nagoya.jpg')
+                    image: require('@/static/attractions/nagoya.jpg')
                 },
                 {
                     title: 'Le Sacre Coeur',
                     city: 'Paris',
                     country: 'France',
-                    image: require('@/assets/attractions/paris.jpg')
+                    image: require('@/static/attractions/paris.jpg')
                 },
                 {
                     title: 'Marché Bonsecours',
                     city: 'Montreal',
                     country: 'Canada',
-                    image: require('@/assets/attractions/montreal.jpg')
+                    image: require('@/static/attractions/montreal.jpg')
                 }
             ],
             filteredAttractions: [
@@ -186,73 +186,73 @@ export default {
                     title: 'Burj Khalifa',
                     city: 'Dubai',
                     country: 'UAE',
-                    image: require('@/assets/attractions/burj.jpg')
+                    image: require('@/static/attractions/burj.jpg')
                 },
                 {
                     title: 'Eiffel Tower',
                     city: 'Paris',
                     country: 'France',
-                    image: require('@/assets/attractions/eiffel.jpg')
+                    image: require('@/static/attractions/eiffel.jpg')
                 },
                 {
                     title: 'Toronto Tower',
                     city: 'Toronto',
                     country: 'Canada',
-                    image: require('@/assets/attractions/tower.jpg')
+                    image: require('@/static/attractions/tower.jpg')
                 },
                 {
                     title: 'Palm Jumeirah',
                     city: 'Dubai',
                     country: 'UAE',
-                    image: require('@/assets/attractions/palm.jpg')
+                    image: require('@/static/attractions/palm.jpg')
                 },
                 {
                     title: 'Shibuya',
                     city: 'Tokyo',
                     country: 'Japan',
-                    image: require('@/assets/attractions/shibu.jpg')
+                    image: require('@/static/attractions/shibu.jpg')
                 },
                 {
                     title: 'Niagara Falls',
                     city: 'Toronto',
                     country: 'Canada',
-                    image: require('@/assets/attractions/niagara.jpg')
+                    image: require('@/static/attractions/niagara.jpg')
                 },
                 {
                     title: 'Mount Fuji',
                     city: 'Honshu Island',
                     country: 'Japan',
-                    image: require('@/assets/attractions/fuji.jpg')
+                    image: require('@/static/attractions/fuji.jpg')
                 },
                 {
                     title: 'Atlantis',
                     city: 'Dubai',
                     country: 'UAE',
-                    image: require('@/assets/attractions/atlantis.jpg')
+                    image: require('@/static/attractions/atlantis.jpg')
                 },
                 {
                     title: 'Arc de Triomphe',
                     city: 'Paris',
                     country: 'France',
-                    image: require('@/assets/attractions/arc.jpg')
+                    image: require('@/static/attractions/arc.jpg')
                 },
                 {
                     title: 'The Atsuta Shrine',
                     city: 'Nagoya',
                     country: 'Japan',
-                    image: require('@/assets/attractions/nagoya.jpg')
+                    image: require('@/static/attractions/nagoya.jpg')
                 },
                 {
                     title: 'Le Sacre Coeur',
                     city: 'Paris',
                     country: 'France',
-                    image: require('@/assets/attractions/paris.jpg')
+                    image: require('@/static/attractions/paris.jpg')
                 },
                 {
                     title: 'Marché Bonsecours',
                     city: 'Montreal',
                     country: 'Canada',
-                    image: require('@/assets/attractions/montreal.jpg')
+                    image: require('@/static/attractions/montreal.jpg')
                 }
             ],
             search: ''

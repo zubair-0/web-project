@@ -174,7 +174,7 @@
         </v-layout>
       </section>
       <section>
-        <v-parallax :src="require('@/assets/china.jpg')" height="550">
+        <v-parallax :src="require('@/static/china.jpg')" height="550">
           <v-layout column align-center justify-center>
             <div class="headline white--text display-1 mb-3 text-xs-center">Best Travelling Services</div>
             <h2>Get The Smooth Rides In Affordable Prices</h2>
@@ -199,22 +199,22 @@ export default {
         return {
             travelPics: [
                 {
-                    src: require('@/assets/airlines/travel4.jpg'),
+                    src: require('@/static/airlines/travel4.jpg'),
                     title: "Travel By Cruise",
                     text: "What Else Is CruiseAide For?"
                 },
                 {
-                    src: require('@/assets/airlines/travel2.jpg'),
+                    src: require('@/static/airlines/travel2.jpg'),
                     title: "Travel By Air",
                     text: "We Got The Best Airline Ticket Prices"
                 },
                 {
-                    src: require('@/assets/airlines/travel3.jpg'),
+                    src: require('@/static/airlines/travel3.jpg'),
                     title: "Travel By Vehicle",
                     text: "Want To Travel By Road? We Got Rentals For You"
                 },
                 {
-                    src: require('@/assets/airlines/travel1.jpg'),
+                    src: require('@/static/airlines/travel1.jpg'),
                     title: "Travel By Train",
                     text: "PreBook And Get The Best Deals on Train Tickets"
                 }
@@ -228,7 +228,7 @@ export default {
                     destCountry: 'Pakistan',
                     class: 'Business',
                     price: 700,
-                    image: require('@/assets/airlines/emirates.png')
+                    image: require('@/static/airlines/emirates.png')
                 },
                 {
                     title: 'Air France',
@@ -238,7 +238,7 @@ export default {
                     destCountry: 'France',
                     class: 'Business',
                     price: 200,
-                    image: require('@/assets/airlines/airfrance.png')
+                    image: require('@/static/airlines/airfrance.png')
                 },
                 {
                     title: 'Turkish Airlines',
@@ -248,7 +248,7 @@ export default {
                     destCountry: 'Turkey',
                     class: 'First',
                     price: 1000,
-                    image: require('@/assets/airlines/turkish.jpg')
+                    image: require('@/static/airlines/turkish.jpg')
                 },
                 {
                     title: 'Japan Airlines',
@@ -258,7 +258,7 @@ export default {
                     destCountry: 'UAE',
                     class: 'Business',
                     price: 2800,
-                    image: require('@/assets/airlines/jal.png')
+                    image: require('@/static/airlines/jal.png')
                 },
                 {
                     title: 'Qatar Airways',
@@ -268,7 +268,7 @@ export default {
                     destCountry: 'Pakistan',
                     class: 'Economy',
                     price: 200,
-                    image: require('@/assets/airlines/qatar.png')
+                    image: require('@/static/airlines/qatar.png')
                 },
                 {
                     title: 'Air Blue',
@@ -278,7 +278,7 @@ export default {
                     destCountry: 'Pakistan',
                     class: 'Economy',
                     price: 150,
-                    image: require('@/assets/airlines/airblue.jpg')
+                    image: require('@/static/airlines/airblue.jpg')
                 },
                 {
                     title: 'Shaheen Airlines',
@@ -288,7 +288,7 @@ export default {
                     destCountry: 'Pakistan',
                     class: 'Business',
                     price: 180,
-                    image: require('@/assets/airlines/shaheen.jpg')
+                    image: require('@/static/airlines/shaheen.jpg')
                 },
                 {
                     title: 'Air Canada',
@@ -298,7 +298,7 @@ export default {
                     destCountry: 'Canada',
                     class: 'Business',
                     price: 300,
-                    image: require('@/assets/airlines/aircanada.jpg')
+                    image: require('@/static/airlines/aircanada.jpg')
                 }
             ],
             airlines: [
@@ -319,7 +319,7 @@ export default {
                     destCountry: 'Pakistan',
                     class: 'Business',
                     price: 700,
-                    image: require('@/assets/airlines/emirates.png')
+                    image: require('@/static/airlines/emirates.png')
                 },
                 {
                     title: 'Air France',
@@ -329,7 +329,7 @@ export default {
                     destCountry: 'France',
                     class: 'Business',
                     price: 200,
-                    image: require('@/assets/airlines/airfrance.png')
+                    image: require('@/static/airlines/airfrance.png')
                 },
                 {
                     title: 'Turkish Airlines',
@@ -339,7 +339,7 @@ export default {
                     destCountry: 'Turkey',
                     class: 'First',
                     price: 1000,
-                    image: require('@/assets/airlines/turkish.jpg')
+                    image: require('@/static/airlines/turkish.jpg')
                 },
                 {
                     title: 'Japan Airlines',
@@ -349,7 +349,7 @@ export default {
                     destCountry: 'UAE',
                     class: 'Business',
                     price: 2800,
-                    image: require('@/assets/airlines/jal.png')
+                    image: require('@/static/airlines/jal.png')
                 },
                 {
                     title: 'Qatar Airways',
@@ -359,7 +359,7 @@ export default {
                     destCountry: 'Pakistan',
                     class: 'Economy',
                     price: 200,
-                    image: require('@/assets/airlines/qatar.png')
+                    image: require('@/static/airlines/qatar.png')
                 },
                 {
                     title: 'Air Blue',
@@ -369,7 +369,7 @@ export default {
                     destCountry: 'Pakistan',
                     class: 'Economy',
                     price: 150,
-                    image: require('@/assets/airlines/airblue.jpg')
+                    image: require('@/static/airlines/airblue.jpg')
                 },
                 {
                     title: 'Shaheen Airlines',
@@ -379,7 +379,7 @@ export default {
                     destCountry: 'Pakistan',
                     class: 'Business',
                     price: 180,
-                    image: require('@/assets/airlines/shaheen.jpg')
+                    image: require('@/static/airlines/shaheen.jpg')
                 },
                 {
                     title: 'Air Canada',
@@ -389,7 +389,7 @@ export default {
                     destCountry: 'Canada',
                     class: 'Business',
                     price: 300,
-                    image: require('@/assets/airlines/aircanada.jpg')
+                    image: require('@/static/airlines/aircanada.jpg')
                 }
             ],
             search: ''

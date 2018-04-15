@@ -1,6 +1,6 @@
-# web-project
+# without-express
 
-> Web Project based on Nuxt.js, Vue.js, Vuetify, Axios, Firebase
+> My classy Nuxt.js project
 
 ## Build Setup
 
