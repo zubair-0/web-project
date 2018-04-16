@@ -1,10 +1,16 @@
 
 const express = require('express')
+const router = express.Router();
+const bodyParser = require('body-parser');
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
 
+const user = require('./controllers/user.js');
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.set('port', port)
 
 // Import and Set Nuxt.js options
@@ -23,9 +29,13 @@ async function start() {
 
   // Give nuxt middleware to express
   app.use(nuxt.render)
-
+  
   // Listen the server
   app.listen(port, host)
   console.log('Server listening on http://' + host + ':' + port) // eslint-disable-line no-console
 }
+
+router.post('/signup', user.signup);
+router.post('/signin', user.signin);
+
 start()
