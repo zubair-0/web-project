@@ -1,6 +1,6 @@
 var admin = require('firebase-admin');
 var firebase = require('firebase');
-const camelCase = require('camelcase');
+var camelCase = require('camelcase');
 
 var db;
 
@@ -17,6 +17,8 @@ module.exports = {
 		firebase.initializeApp(config);
 
 		db = admin.firestore();
+
+		console.log('model online');
 	},
 
 	addUser: function (username, email, password) {

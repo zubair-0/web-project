@@ -24,22 +24,24 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
-      app
-      :clipped-left="clipped"
-      :scroll-off-screen=false
-    >
+    <v-toolbar fixed app :clipped-left="clipped">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
+      <v-btn
+        icon
+        @click.stop="miniVariant = !miniVariant"
+      >
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>web</v-icon>
+      <v-btn
+        icon
+        @click.stop="fixed = !fixed"
+      >
+        <v-icon>remove</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu bottom offset-y>
-        <v-btn slot="activator"><v-icon left dark>add_box</v-icon>Add</v-btn>
+        <v-btn v-if="loggedIn" slot="activator"><v-icon left dark>add_box</v-icon>Add</v-btn>
         <v-list>
           <v-list-tile v-for="adder in adders" :key="adder.title" @click="adder.call">
             <v-list-tile-title><v-icon left dark class="mr-2" v-html="adder.icon"></v-icon>{{ adder.title }}</v-list-tile-title>
@@ -47,8 +49,16 @@
         </v-list>
       </v-menu>
       <v-toolbar-items v-for="button in buttons" :key="button.title">
-        <v-btn v-on:click="button.call" flat><v-icon left dark v-html="button.icon"></v-icon>{{button.title}}</v-btn>
+        <v-btn v-if="!loggedIn" v-on:click="button.call" flat><v-icon left dark v-html="button.icon"></v-icon>{{button.title}}</v-btn>
       </v-toolbar-items>
+      <v-menu v-if="loggedIn" bottom offset-y>
+        <v-btn slot="activator" flat><v-icon left dark>person</v-icon>{{ username }}</v-btn>
+        <v-list>
+          <v-list-tile @click="loggedIn = false">
+            <v-icon style="margin-right: 10px" dark>cloud_off</v-icon><v-list-tile-title>Log Out</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
     
     <nuxt />
@@ -170,6 +180,7 @@
                 <v-flex xs12>
                   <v-select
                     :items="accomodationTypes"
+                    v-model="e1"
                     label="Select Type"
                     single-line
                   ></v-select>
@@ -282,83 +293,102 @@
       </v-dialog>
     </v-layout>
 
-    <v-layout row justify-center>
-      <v-dialog v-model="loginDialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Login</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field name="email" label="Email" hint="Example: john.doe@mail.com" required></v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field name="password" label="Password" type="password" required></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="loginDialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="loginDialog = false">Login</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-layout>
+    <v-dialog v-model="loginDialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Login</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <v-text-field name="email" label="Email" hint="Example: john.doe@mail.com" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field name="password" label="Password" type="password" required></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+          <small>*indicates required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click.native="loginDialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" flat @click.native="loginDialog = false">Login</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
-    <v-layout row justify-center>
-      <v-dialog v-model="signupDialog" max-width="500px">
+    <v-dialog v-model="signupDialog" max-width="500px">
         <v-card>
           <v-card-title>
-            <span class="headline">SignUp</span>
+            <span class="headline">Sign Up</span>
           </v-card-title>
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
+              <v-layout row wrap>
                 <v-flex xs12>
                   <v-text-field
-                    label="Full Name"
-                    hint="Example: John Doe"
-                    required>
+                    name = "name"
+                    label = "Username"
+                    id = "name"
+                    v-model="name"
+                    hint="Example: john.doe"
+                    :rules="nameRules"
+                    :counter="10"
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    name = "email"
+                    label = "Email"
+                    id = "email"
+                    v-model = "email"
+                    type = "email"
+                    hint="Example: john.doe@mail.com"
+                    :rules="emailRules"
+                    required
+                  >
                   </v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field name="username" label="Username" hint="Example: jdk" required></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field name="email" label="Email" hint="Example: john.doe@mail.com" required></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field name="password" label="Password" type="password" required></v-text-field>
-                </v-flex>
-                <!-- <v-flex xs12>
-                  <v-text-field name="confirmPassword" label="Confirm Password" type="password" required></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-select
-                    label="Age"
+                  <v-text-field
+                    name = "password"
+                    label = "Password"
+                    id = "password"
+                    v-model = "password"
+                    type = "password"
                     required
-                    :items="['0-17', '18-29', '30-54', '54+']"
-                  ></v-select>
-                </v-flex> -->
+                  >
+                  </v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    name = "confirmPassword"
+                    label = "Confirm Password"
+                    id = "confirmPassword"
+                    v-model = "confirmPassword"
+                    type = "password"
+                    :rules="[confirmPasswordRule]"
+                  >
+                  </v-text-field>
+                </v-flex>
+                <v-alert type="error" dismissible :value="errorFlag">
+                  {{ errorMessage }}
+                </v-alert>
               </v-layout>
             </v-container>
             <small>*indicates required field</small>
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="signupDialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="signupDialog = false">SignUp</v-btn>
+             <v-flex xs12>
+                <v-btn color="blue darken-1" flat @click.native="signupDialog = false">Close</v-btn>
+                <v-btn color="blue darken-1" flat @click="signUp">Sign Up</v-btn>
+              </v-flex>
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-layout>
 
     <v-footer :fixed="fixed" app>
       <span>&copy; CruiseAide 2017-Present</span>
@@ -367,6 +397,8 @@
 </template>
 
 <script>
+  var axios = require('axios');
+
   export default {
     data() {
       return {
@@ -434,20 +466,63 @@
         },
         cuisine: ['Italian', 'Chinese', 'English'],
         accomodationTypes: ['Hotel', 'Rental House'],
+        e1: [],
         flightClasses: ['First', 'Business', 'Economy'],
         addAttractionDialog: false,
         addRestaurantDialog: false,
         addAccomodationDialog: false,
         addTravelDialog: false,
         loginDialog: false,
+        loggedIn: true,
         signupDialog: false,
         miniVariant: true,
         right: true,
-        rightDrawer: false,
-        title: 'CruiseAide'
+        title: 'CruiseAide',
+        valid: true,
+        username: 'zubair',
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        nameRules: [
+          v => !!v || 'Name is required',
+          v => (v && v.length <= 20) || 'Name must be less than 20 characters'
+        ],
+        emailRules: [
+          v => !!v || 'Email is required',
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email must be valid'
+        ],
+        errorflag: false,
+        errorMessage: ''
+      }
+    },
+    computed: {
+      confirmPasswordRule () {
+        return this.password !== this.confirmPassword ? 'Passwords do not match' : true
       }
     },
     methods: {
+      signUp: function () {
+        this.errorflag = false;
+
+        if (this.signUpPassword === this.signUpRepeatPass) {
+          var fd = {
+            'username': this.signUpUsername,
+            'email': this.signUpEmail,
+            'password': this.signUpPassword
+          };
+
+          axios.post('http://127.0.0.1:3000/signup', fd).then((res) => {
+            console.log(res.status);
+            
+            if(res.data.message.toLowerCase().indexOf('error') !== -1)
+            {
+              this.errorMessage = res.data.obj.message;
+              this.errorflag = true;
+            }
+          })
+        }
+      },
       add: function () {
         this.addDialog = true;
       },
