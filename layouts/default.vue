@@ -151,17 +151,17 @@
           </v-card-title>
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
+              <v-layout row wrap>
                 <v-flex xs12>
                   <v-text-field label="Name" hint="Example: Pearl Continental" required></v-text-field>
                 </v-flex>
               </v-layout>
-              <v-layout wrap>
+              <v-layout row wrap>
                 <v-flex xs12>
                   <v-text-field label="City" hint="Example: Lahore" required></v-text-field>
                 </v-flex>
               </v-layout>
-              <v-layout wrap>
+              <v-layout row wrap>
                 <v-flex xs12>
                   <v-text-field label="Country" hint="Example: PK" required></v-text-field>
                 </v-flex>
@@ -329,9 +329,9 @@
               <v-layout row wrap>
                 <v-flex xs12>
                   <v-text-field
-                    name = "name"
-                    label = "Username"
-                    id = "name"
+                    name="name"
+                    label="Username"
+                    id="name"
                     v-model="name"
                     hint="Example: john.doe"
                     :rules="nameRules"
@@ -341,11 +341,11 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
-                    name = "email"
-                    label = "Email"
-                    id = "email"
-                    v-model = "email"
-                    type = "email"
+                    name="email"
+                    label="Email"
+                    id="email"
+                    v-model="email"
+                    type="email"
                     hint="Example: john.doe@mail.com"
                     :rules="emailRules"
                     required
@@ -354,27 +354,27 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
-                    name = "password"
-                    label = "Password"
-                    id = "password"
-                    v-model = "password"
-                    type = "password"
+                    name="password"
+                    label="Password"
+                    id="password"
+                    v-model="password"
+                    type="password"
                     required
                   >
                   </v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
-                    name = "confirmPassword"
-                    label = "Confirm Password"
-                    id = "confirmPassword"
-                    v-model = "confirmPassword"
-                    type = "password"
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    id="confirmPassword"
+                    v-model="confirmPassword"
+                    type="password"
                     :rules="[confirmPasswordRule]"
                   >
                   </v-text-field>
                 </v-flex>
-                <v-alert type="error" dismissible :value="errorFlag">
+                <v-alert type="error" :value="errorFlag">
                   {{ errorMessage }}
                 </v-alert>
               </v-layout>
@@ -492,7 +492,7 @@
           v => !!v || 'Email is required',
           v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email must be valid'
         ],
-        errorflag: false,
+        errorFlag: false,
         errorMessage: ''
       }
     },
@@ -503,13 +503,13 @@
     },
     methods: {
       signUp: function () {
-        this.errorflag = false;
+        this.errorFlag = false;
 
-        if (this.signUpPassword === this.signUpRepeatPass) {
+        if (this.password === this.confirmPassword) {
           var fd = {
-            'username': this.signUpUsername,
-            'email': this.signUpEmail,
-            'password': this.signUpPassword
+            'username': this.name,
+            'email': this.email,
+            'password': this.password
           };
 
           axios.post('http://127.0.0.1:3000/signup', fd).then((res) => {

@@ -123,7 +123,6 @@
             dark
             large
             href="#"
-            @click="homeClicked"
           >
             Get Started
           </v-btn>
@@ -182,7 +181,6 @@
                 ></v-text-field>
                 <v-btn
                   color="primary"
-                  @click="submit"
                   :disabled="!valid"
                 >
                   CONTACT
