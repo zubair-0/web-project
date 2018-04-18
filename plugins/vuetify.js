@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import colors from 'vuetify/es5/util/colors'
+import StarRating from 'vue-star-rating'
 
 Vue.use(Vuetify, {
   theme: {

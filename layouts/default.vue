@@ -73,17 +73,12 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Name" hint="Example: Burj Khalifa" required></v-text-field>
+                  <v-text-field v-model="addAttractionName" label="Name" hint="Example: Burj Khalifa" required></v-text-field>
                 </v-flex>
               </v-layout>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="City" hint="Example: Dubai" required></v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field label="Country" hint="Example: UAE" required></v-text-field>
+                  <v-text-field v-model="addAttractionLocation" label="Location" hint="Example: Dubai, UAE" required></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -92,7 +87,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click.native="addAttractionDialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="addAttractionDialog = false">Add</v-btn>
+            <v-btn color="blue darken-1" flat @click.native="addAttraction">Add</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -302,10 +297,28 @@
           <v-container grid-list-md>
             <v-layout row wrap>
               <v-flex xs12>
-                <v-text-field name="email" label="Email" hint="Example: john.doe@mail.com" required></v-text-field>
+                <v-text-field
+                    name="email"
+                    label="Email"
+                    id="email"
+                    v-model="loginEmail"
+                    type="email"
+                    hint="Example: john.doe@mail.com"
+                    :rules="emailRules"
+                    required
+                  >
+                  </v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field name="password" label="Password" type="password" required></v-text-field>
+                <v-text-field
+                    name="password"
+                    label="Password"
+                    id="password"
+                    v-model="loginPassword"
+                    type="password"
+                    required
+                  >
+                  </v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -314,7 +327,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click.native="loginDialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click.native="loginDialog = false">Login</v-btn>
+          <v-btn color="blue darken-1" flat @click="signIn">Login</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -473,6 +486,8 @@
         addAccomodationDialog: false,
         addTravelDialog: false,
         loginDialog: false,
+        loginEmail: '',
+        loginPassword: '',
         loggedIn: true,
         signupDialog: false,
         miniVariant: true,
@@ -492,7 +507,9 @@
           v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email must be valid'
         ],
         errorFlag: false,
-        errorMessage: ''
+        errorMessage: '',
+        addAttractionName: '',
+        addAttractionLocation: '',
       }
     },
     computed: {
@@ -505,13 +522,13 @@
         this.errorFlag = false;
 
         if (this.password === this.confirmPassword) {
-          var fd = {
+          var obj = {
             'username': this.name,
             'email': this.email,
             'password': this.password
           };
 
-          axios.post('http://127.0.0.1:3000/signup', fd).then((res) => {
+          axios.post('http://127.0.0.1:3000/signup', obj).then((res) => {
             console.log(res.status);
             
             if(res.data.message.toLowerCase().indexOf('error') !== -1)
@@ -521,6 +538,48 @@
             }
           })
         }
+      },
+      signIn: function() {
+        var obj = {
+          email: this.loginEmail,
+          password: this.loginPassword
+        }
+        axios.post('http://127.0.0.1:3000/login', obj).then((res) => {
+            console.log(res.status);
+            
+            if(res.data.message != null) 
+            {
+              if(res.data.message.toLowerCase().indexOf('error') !== -1)
+              {
+                this.errorMessage = res.data.obj.message;
+                this.errorflag = true;
+              }
+              else
+              {
+                this.loggedIn = true;
+                this.username = this.loginEmail;
+                this.loginDialog = false;
+              }
+            }
+          })
+      },
+      addAttraction: function () {
+        this.errorflag = false;
+        
+        var obj = {
+          name: this.addAttractionName,
+          location: this.addAttractionLocation,
+          image: this.selectedImage
+        }
+        axios.post('http://127.0.0.1:3000/fetchAttractions/new', obj).then((res) => {
+          console.log(res.status);
+          
+          if(res.data.message.toLowerCase().indexOf('error') !== -1)
+          {
+            this.errorMessage = res.data.obj.message;
+            this.errorflag = true;
+          }
+        })
       },
       add: function () {
         this.addDialog = true;
