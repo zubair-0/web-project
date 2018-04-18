@@ -13,19 +13,22 @@ module.exports = {
         model.addAttraction(title, location, imgUrl)
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json({
+                'message': 'Added Successfully',
+                'obj': err
+            });
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing Up',
+                'message': 'Error Adding',
                 'obj': err
             });
         });
     },
 
     updateAttraction: function(req, res) {
-        id = req.query.id
+        id = req.params.id
         var obj = {
             'title': req.body.title,
             'location': req.body.location,
@@ -35,12 +38,31 @@ module.exports = {
         model.updateAttraction(id, obj)
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json({
+                'message': 'Updated Successfully',
+                'obj': err
+            });
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing In',
+                'message': 'Error Updating Data',
+                'obj': err
+            });
+        });
+    },
+
+    getAttraction: function(req, res) {
+        id = req.params.id
+        model.getAttraction(id)
+        .then((result) => {
+            res.status = 200;
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status = 777;
+            res.json({
+                'message': 'Error Fetching Data',
                 'obj': err
             });
         });
@@ -50,12 +72,12 @@ module.exports = {
         model.getAllAttractions()
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json(result);
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing In',
+                'message': 'Error Fetching Data',
                 'obj': err
             });
         });

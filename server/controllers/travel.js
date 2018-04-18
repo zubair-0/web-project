@@ -16,19 +16,22 @@ module.exports = {
         model.addTravel(title, source, destination, cls, price, imgUrl)
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json({
+                'message': 'Added Successfully',
+                'obj': err
+            });
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing Up',
+                'message': 'Error Adding',
                 'obj': err
             });
         });
     },
 
     updateTravel: function(req, res) {
-        id = req.query.id
+        id = req.params.id
         var obj = {
             'title': req.body.title,
             'source': req.body.source,
@@ -41,12 +44,31 @@ module.exports = {
         model.updateTravel(id, obj)
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json({
+                'message': 'Updated Successfully',
+                'obj': err
+            });
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing In',
+                'message': 'Error Updating Data',
+                'obj': err
+            });
+        });
+    },
+
+    getTravel: function(req, res) {
+        id = req.params.id
+        model.getTravel(id)
+        .then((result) => {
+            res.status = 200;
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status = 777;
+            res.json({
+                'message': 'Error Fetching Data',
                 'obj': err
             });
         });
@@ -56,12 +78,12 @@ module.exports = {
         model.getAllTravels()
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json(result);
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing In',
+                'message': 'Error Fetching Data',
                 'obj': err
             });
         });

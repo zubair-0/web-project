@@ -17,19 +17,22 @@ module.exports = {
         model.addAccomodation(title, location, imgUrl, price, features, type, rating)
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json({
+                'message': 'Added Successfully',
+                'obj': err
+            });
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing Up',
+                'message': 'Error Adding',
                 'obj': err
             });
         });
     },
 
     updateAccomodation: function(req, res) {
-        id = req.query.id
+        id = req.params.id
         var obj = {
             'title': req.body.title,
             'location': req.body.location,
@@ -43,12 +46,31 @@ module.exports = {
         model.updateAccomodation(id, obj)
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json({
+                'message': 'Updated Successfully',
+                'obj': err
+            });
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing In',
+                'message': 'Error Updating Data',
+                'obj': err
+            });
+        });
+    },
+
+    getAccomodation: function(req, res) {
+        id = req.params.id
+        model.getAccomodation(id)
+        .then((result) => {
+            res.status = 200;
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status = 777;
+            res.json({
+                'message': 'Error Fetching Data',
                 'obj': err
             });
         });
@@ -58,12 +80,12 @@ module.exports = {
         model.getAllAccomodations()
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json(result);
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing In',
+                'message': 'Error Fetching Data',
                 'obj': err
             });
         });

@@ -16,38 +16,60 @@ module.exports = {
         model.addRestaurant(title, location, imgUrl, features, cuisine, rating)
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json({
+                'message': 'Added Successfully',
+                'obj': err
+            });
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing Up',
+                'message': 'Error Adding',
                 'obj': err
             });
         });
     },
 
     updateRestaurant: function(req, res) {
-        id = req.query.id
+        id = req.params.id
         
         var obj = {
             'title': req.body.title,
             'location': req.body.location,
             'imgUrl': req.body.imgUrl,
-            'features': req.body.features;
-            'cuisine': req.body.cuisine;
-            'rating': req.body.rating;
+            'features': req.body.features,
+            'cuisine': req.body.cuisine,
+            'rating': req.body.rating
         }
 
         model.updateRestaurant(id, obj)
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json({
+                'message': 'Updated Successfully',
+                'obj': err
+            });
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing In',
+                'message': 'Error Updating Data',
+                'obj': err
+            });
+        });
+    },
+
+    getRestaurant: function(req, res) {
+        id = req.params.id
+        model.getRestaurant(id)
+        .then((result) => {
+            res.status = 200;
+            res.json(result);
+        })
+        .catch((err) => {
+            res.status = 777;
+            res.json({
+                'message': 'Error Fetching Data',
                 'obj': err
             });
         });
@@ -57,12 +79,12 @@ module.exports = {
         model.getAllRestaurants()
         .then((result) => {
             res.status = 200;
-            res.json({});
+            res.json(result);
         })
         .catch((err) => {
             res.status = 777;
             res.json({
-                'message': 'Error Signing In',
+                'message': 'Error Fetching Data',
                 'obj': err
             });
         });

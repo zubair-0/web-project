@@ -6,6 +6,7 @@ const app = express();
 const host = process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 3000;
 
+const model = require('./models/model.js');
 const user = require('./controllers/user.js');
 const attraction = require('./controllers/attraction.js');
 const accomodation = require('./controllers/accomodation.js');
@@ -36,26 +37,30 @@ async function start() {
   // Listen the server
   app.listen(port, host);
   console.log('Server listening on http://' + host + ':' + port); // eslint-disable-line no-console
-  user.initialize();
+  model.initialize();
 }
 
 app.post('/signup', user.signup);
 app.post('/signin', user.signin);
 
 app.get('/attractions', attraction.getAllAttractions);
-app.post('/attractions', attraction.addAttraction);
-app.post('/attractions/:id', attraction.updateAttraction);
-
-app.get('/accomodations', accomodation.getAllAccomodations);
-app.post('/accomodations', accomodation.addAccomodation);
-app.post('/accomodations/:id', accomodation.updateAccomodation);
+app.put('/attractions/:id', attraction.updateAttraction);
+app.post('/attractions/new', attraction.addAttraction);
+app.get('/fetchAttractions/:id', attraction.getAttraction);
 
 app.get('/restaurants', restaurant.getAllRestaurants);
-app.post('/restaurants', restaurant.addRestaurant);
-app.post('/restaurants/:id', restaurant.updateRestaurant);
+app.put('/restaurants/:id', restaurant.updateRestaurant);
+app.post('/restaurants/new', restaurant.addRestaurant);
+app.get('/fetchRestaurants/:id', restaurant.getRestaurant);
+
+app.get('/accomodations', accomodation.getAllAccomodations);
+app.put('/accomodations/:id', accomodation.updateAccomodation);
+app.post('/accomodations/new', accomodation.addAccomodation);
+app.get('/fetchAccomodations/:id', accomodation.getAccomodation);
 
 app.get('/travels', travel.getAllTravels);
-app.post('/travels', travel.addTravel);
-app.post('/travels/:id', travel.updateTravel);
+app.put('/travels/:id', travel.updateTravel);
+app.post('/travels/new', travel.addTravel);
+app.get('/fetchTravels/:id', travel.getTravel);
 
 start();
