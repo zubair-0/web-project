@@ -209,7 +209,7 @@ export default {
     },
     asyncData () {
         return new Promise((resolve, reject) => {
-            axios.get('http://127.0.0.1:3000/accomodations').then(res => {
+            axios.get('http://127.0.0.1:3000/fetchAccomodations').then(res => {
                 resolve({
                     filteredAccomodations: res.data,
                     accomodations: res.data

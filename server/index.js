@@ -43,24 +43,24 @@ async function start() {
 app.post('/signup', user.signup);
 app.post('/signin', user.signin);
 
-app.get('/attractions', attraction.getAllAttractions);
-app.put('/attractions/:id', attraction.updateAttraction);
-app.post('/attractions/new', attraction.addAttraction);
+app.get('/fetchAttractions', attraction.getAllAttractions);
+app.put('/fetchAttractions/:id', attraction.updateAttraction);
+app.post('/fetchAttractions/new', attraction.addAttraction);
 app.get('/fetchAttractions/:id', attraction.getAttraction);
 
-app.get('/restaurants', restaurant.getAllRestaurants);
-app.put('/restaurants/:id', restaurant.updateRestaurant);
-app.post('/restaurants/new', restaurant.addRestaurant);
+app.get('/fetchRestaurants', restaurant.getAllRestaurants);
+app.put('/fetchRestaurants/:id', restaurant.updateRestaurant);
+app.post('/fetchRestaurants/new', restaurant.addRestaurant);
 app.get('/fetchRestaurants/:id', restaurant.getRestaurant);
 
-app.get('/accomodations', accomodation.getAllAccomodations);
-app.put('/accomodations/:id', accomodation.updateAccomodation);
-app.post('/accomodations/new', accomodation.addAccomodation);
+app.get('/fetchAccomodations', accomodation.getAllAccomodations);
+app.put('/fetchAccomodations/:id', accomodation.updateAccomodation);
+app.post('/fetchAccomodations/new', accomodation.addAccomodation);
 app.get('/fetchAccomodations/:id', accomodation.getAccomodation);
 
-app.get('/travels', travel.getAllTravels);
-app.put('/travels/:id', travel.updateTravel);
-app.post('/travels/new', travel.addTravel);
+app.get('/fetchTravels', travel.getAllTravels);
+app.put('/fetchTravels/:id', travel.updateTravel);
+app.post('/fetchTravels/new', travel.addTravel);
 app.get('/fetchTravels/:id', travel.getTravel);
 
 start();
