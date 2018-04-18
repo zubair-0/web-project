@@ -464,7 +464,7 @@
           classes: [],
           airlines: []
         },
-        cuisine: ['Italian', 'Chinese', 'English'],
+        cuisine: ['Italian', 'Chinese', 'English', 'Japanese'],
         accomodationTypes: ['Hotel', 'Rental House'],
         e1: [],
         flightClasses: ['First', 'Business', 'Economy'],

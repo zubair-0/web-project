@@ -109,7 +109,7 @@
                     <v-card-title primary-title>
                       <div class="text-xs-left">
                         <div class="headline">{{restaurant.title}}</div>
-                        <span class="grey--text">{{restaurant.city}}, {{restaurant.country}}</span>
+                        <span class="grey--text">{{restaurant.location}}</span>
                         <br>
                         <span class="grey--text">Cuisine: {{restaurant.cuisine}}</span>
                         <star-rating :star-size="20" :rating="restaurant.rating" :read-only="true" :increment="0.01"></star-rating>
@@ -147,168 +147,55 @@
 </template>
 
 <script>
+var axios = require('axios');
+
 export default {
     data() {
         return {
             restaurantPics: [
                 {
-                    src: require('@/static/restaurants/rest1.jpg'),
+                    src: 'https://imgur.com/WQTxeH4',
                     title: "Indoor",
                     text: "We Recommend The Best Indoor Restaurants"
                 },
                 {
-                    src: require('@/static/restaurants/rest2.jpg'),
+                    src: 'https://imgur.com/oQzKLgR',
                     title: "Outdoor",
                     text: "In Mood For Outdoor Sitting? We Got You Covered"
                 },
                 {
-                    src: require('@/static/restaurants/rest3.jpg'),
+                    src: 'https://imgur.com/8WF7aRf',
                     title: "Cheaper",
                     text: "Running Low On Budget? We Got Just The Places For You"
                 },
                 {
-                    src: require('@/static/restaurants/rest4.jpg'),
+                    src: 'https://imgur.com/vSQdKt1',
                     title: "Royalty",
                     text: "Experience The Most Luxurious Restaurants Around The World"
                 }
             ],
-            restaurants: [
-                {
-                    title: 'Burj Khalifa',
-                    city: 'Dubai',
-                    country: 'UAE',
-                    features: ['Buffet', 'Event Organizers', 'Takeout', 'Event Organizers'],
-                    cuisine: ['Arabic', 'English', 'Japanese'],
-                    image: require('@/static/restaurants/bkrestaurant.jpg'),
-                    rating: 4.8
-                },
-                {
-                    title: 'Salt N Pepper',
-                    city: 'London',
-                    country: 'UK',
-                    features: ['Buffet', 'Takeout', 'Event Organizers'],
-                    cuisine: ['Pakistani', 'Chinese', 'Italian'],
-                    image: require('@/static/restaurants/snp.jpg'),
-                    rating: 4.2
-                },
-                {
-                    title: 'Papa John\'s',
-                    city: 'New York',
-                    country: 'USA',
-                    features: ['Delivery', 'Takeout', 'Bulk Order'],
-                    cuisine: ['Italian', 'English'],
-                    image: require('@/static/restaurants/pjs.jpg'),
-                    rating: 4.5
-                },
-                {
-                    title: 'Okonomiyaki Kiji',
-                    city: 'Osaka',
-                    country: 'Japan',
-                    features: ['Delivery', 'Takeout'],
-                    cuisine: ['Japanese', 'Chinese'],
-                    image: require('@/static/restaurants/oko.jpg'),
-                    rating: 5
-                },
-                {
-                    title: 'Biryani House',
-                    city: 'Karachi',
-                    country: 'Pakistan',
-                    features: ['Delivery', 'Takeout', 'Bulk Order'],
-                    cuisine: ['Pakistani', 'Chinese'],
-                    image: require('@/static/restaurants/biryani.jpg'),
-                    rating: 3.6
-                },
-                {
-                    title: 'Prego',
-                    city: 'Kuala Lumpur',
-                    country: 'Malaysia',
-                    features: ['Event Organizers'],
-                    cuisine: ['Arabic', 'English', 'Japanese'],
-                    image: require('@/static/restaurants/kuala.jpg'),
-                    rating: 4.7
-                },
-                {
-                    title: 'Ziafat',
-                    city: 'Lahore',
-                    country: 'Pakistan',
-                    features: ['Buffet'],
-                    cuisine: ['Pakistani', 'Chinese', 'Arabic'],
-                    image: require('@/static/restaurants/ziafat.jpg'),
-                    rating: 3.8
-                }
-            ],
+            restaurants: [],
             restaurantFilters: {
                 cuisines: [],
                 features: []
             },
-            cuisine: ['Italian', 'Chinese', 'English'],
-            filteredRestaurants: [
-                {
-                    title: 'Burj Khalifa',
-                    city: 'Dubai',
-                    country: 'UAE',
-                    features: ['Buffet', 'Event Organizers', 'Takeout', 'Event Organizers'],
-                    cuisine: ['Arabic', 'English', 'Japanese'],
-                    image: require('@/static/restaurants/bkrestaurant.jpg'),
-                    rating: 4.8
-                },
-                {
-                    title: 'Salt N Pepper',
-                    city: 'London',
-                    country: 'UK',
-                    features: ['Buffet', 'Takeout', 'Event Organizers'],
-                    cuisine: ['Pakistani', 'Chinese', 'Italian'],
-                    image: require('@/static/restaurants/snp.jpg'),
-                    rating: 4.2
-                },
-                {
-                    title: 'Papa John\'s',
-                    city: 'New York',
-                    country: 'USA',
-                    features: ['Delivery', 'Takeout', 'Bulk Order'],
-                    cuisine: ['Italian', 'English'],
-                    image: require('@/static/restaurants/pjs.jpg'),
-                    rating: 4.5
-                },
-                {
-                    title: 'Okonomiyaki Kiji',
-                    city: 'Osaka',
-                    country: 'Japan',
-                    features: ['Delivery', 'Takeout'],
-                    cuisine: ['Japanese', 'Chinese'],
-                    image: require('@/static/restaurants/oko.jpg'),
-                    rating: 5
-                },
-                {
-                    title: 'Biryani House',
-                    city: 'Karachi',
-                    country: 'Pakistan',
-                    features: ['Delivery', 'Takeout', 'Bulk Order'],
-                    cuisine: ['Pakistani', 'Chinese'],
-                    image: require('@/static/restaurants/biryani.jpg'),
-                    rating: 3.6
-                },
-                {
-                    title: 'Prego',
-                    city: 'Kuala Lumpur',
-                    country: 'Malaysia',
-                    features: ['Event Organizers'],
-                    cuisine: ['Arabic', 'English', 'Japanese'],
-                    image: require('@/static/restaurants/kuala.jpg'),
-                    rating: 4.7
-                },
-                {
-                    title: 'Ziafat',
-                    city: 'Lahore',
-                    country: 'Pakistan',
-                    features: ['Buffet'],
-                    cuisine: ['Pakistani', 'Chinese', 'Arabic'],
-                    image: require('@/static/restaurants/ziafat.jpg'),
-                    rating: 3.8
-                }
-            ],
+            cuisine: ['Italian', 'Chinese', 'English', 'Japanese'],
+            filteredRestaurants: [],
             search: ''
         };
+    },
+    asyncData () {
+        return new Promise((resolve, reject) => {
+            axios.get('http://127.0.0.1:3000/restaurants').then(res => {
+                resolve({
+                    filteredRestaurants: res.data,
+                    restaurants: res.data
+                })
+            }).catch(err => {
+                console.log(err);
+                reject(arr);
+            })
+        });
     },
     methods: {
         filterResults: function () {
@@ -319,11 +206,7 @@ export default {
                             return true;
                         }
 
-                        if (resultant.city.toLowerCase().includes(this.search.toLowerCase())) {
-                            return true;
-                        }
-
-                        if (resultant.country.toLowerCase().includes(this.search.toLowerCase())) {
+                        if (resultant.location.toLowerCase().includes(this.search.toLowerCase())) {
                             return true;
                         }
                     }

@@ -130,7 +130,7 @@
                     <v-card-title primary-title>
                       <div class="text-xs-left">
                         <div class="headline">{{hotel.title}}</div>
-                        <span class="grey--text">{{hotel.city}}, {{hotel.country}}</span>
+                        <span class="grey--text">{{hotel.location}}</span>
                         <br>
                         <span class="grey--text">{{hotel.type}}: ${{hotel.price}}</span>
                         <star-rating :star-size="20" :rating="hotel.rating" :read-only="true" :increment="0.01"></star-rating>
@@ -169,163 +169,56 @@
 </template>
 
 <script>
+var axios = require('axios');
+
 export default {
     data() {
         return {
             accomodationPics: [
                 {
-                    src: require('@/static/accomodation/acomo1.jpg'),
+                    src: 'https://imgur.com/DZslkfj',
                     title: "Wanna See Snow?",
                     text: "Stay In Cold Areas Of The World, But In Warm Places"
                 },
                 {
-                    src: require('@/static/accomodation/acomo2.jpg'),
+                    src: 'https://imgur.com/VxPVziG',
                     title: "Luxurious Living",
                     text: "We Make The Most Luxurious Hotels Affordable Just For You"
                 },
                 {
-                    src: require('@/static/accomodation/acomo3.jpg'),
+                    src: 'https://imgur.com/FTZ1kPp',
                     title: "Great Views",
                     text: "We Recommend The Hotels With The Most Amazing Views"
                 },
                 {
-                    src: require('@/static/accomodation/acomo4.jpg'),
+                    src: 'https://imgur.com/iv8o4Ep',
                     title: "Islands",
                     text: "Experience The Amazing Life On An Island"
                 }
             ],
-            accomodations: [
-                {
-                    title: 'Emirates Palace',
-                    city: 'Abu Dhabi',
-                    country: 'UAE',
-                    features: ['Gym', 'Spa', 'Swimming Pool', 'Penthouse', 'Golf Course'],
-                    price: 1500,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/ephotel.jpg'),
-                    rating: 5
-                },
-                {
-                    title: 'Burj Khalifa',
-                    city: 'Dubai',
-                    country: 'UAE',
-                    features: ['Gym', 'Spa', 'Swimming Pool', 'Penthouse'],
-                    price: 2000,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/bkhotel.jpg'),
-                    rating: 4.5
-                },
-                {
-                    title: 'The Plaza',
-                    city: 'New York',
-                    country: 'USA',
-                    features: ['Gym', 'Swimming Pool', 'Penthouse'],
-                    price: 1200,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/tphotel.jpg'),
-                    rating: 4.2
-                },
-                {
-                    title: 'The Westin Excelsior',
-                    city: 'Rome',
-                    country: 'Italy',
-                    features: ['Spa', 'Swimming Pool', 'Golf Course'],
-                    price: 950,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/twehotel.jpg'),
-                    rating: 4.7
-                },
-                {
-                    title: '25 Westwoord Drive',
-                    city: 'Lahore',
-                    country: 'Pakistan',
-                    features: [],
-                    price: 500,
-                    type: 'RentalHome',
-                    image: require('@/static/accomodation/wdroom.jpg'),
-                    rating: 3.8
-                },
-                {
-                    title: 'The Boulders',
-                    city: 'Arizona',
-                    country: 'USA',
-                    features: ['Gym', 'Swimming Pool', 'Golf Course'],
-                    price: 600,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/tbhotel.jpg'),
-                    rating: 3.9
-                }
-            ],
+            accomodations: [],
             accomodationFilters: {
                 price: 5000,
                 types: [],
                 features: []
             },
             accomodationTypes: ['Hotel', 'Rental House'],
-            filteredAccomodations: [
-                {
-                    title: 'Emirates Palace',
-                    city: 'Abu Dhabi',
-                    country: 'UAE',
-                    features: ['Gym', 'Spa', 'Swimming Pool', 'Penthouse', 'Golf Course'],
-                    price: 1500,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/ephotel.jpg'),
-                    rating: 5
-                },
-                {
-                    title: 'Burj Khalifa',
-                    city: 'Dubai',
-                    country: 'UAE',
-                    features: ['Gym', 'Spa', 'Swimming Pool', 'Penthouse'],
-                    price: 2000,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/bkhotel.jpg'),
-                    rating: 4.5
-                },
-                {
-                    title: 'The Plaza',
-                    city: 'New York',
-                    country: 'USA',
-                    features: ['Gym', 'Swimming Pool', 'Penthouse'],
-                    price: 1200,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/tphotel.jpg'),
-                    rating: 4.2
-                },
-                {
-                    title: 'The Westin Excelsior',
-                    city: 'Rome',
-                    country: 'Italy',
-                    features: ['Spa', 'Swimming Pool', 'Golf Course'],
-                    price: 950,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/twehotel.jpg'),
-                    rating: 4.7
-                },
-                {
-                    title: '25 Westwoord Drive',
-                    city: 'Lahore',
-                    country: 'Pakistan',
-                    features: [],
-                    price: 500,
-                    type: 'RentalHome',
-                    image: require('@/static/accomodation/wdroom.jpg'),
-                    rating: 3.8
-                },
-                {
-                    title: 'The Boulders',
-                    city: 'Arizona',
-                    country: 'USA',
-                    features: ['Gym', 'Swimming Pool', 'Golf Course'],
-                    price: 600,
-                    type: 'Hotel',
-                    image: require('@/static/accomodation/tbhotel.jpg'),
-                    rating: 3.9
-                }
-            ],
+            filteredAccomodations: [],
             search: ''
         };
+    },
+    asyncData () {
+        return new Promise((resolve, reject) => {
+            axios.get('http://127.0.0.1:3000/accomodations').then(res => {
+                resolve({
+                    filteredAccomodations: res.data,
+                    accomodations: res.data
+                })
+            }).catch(err => {
+                console.log(err);
+                reject(arr);
+            })
+        });
     },
     methods: {
         filterResults: function () {
@@ -337,11 +230,7 @@ export default {
                                 return true;
                             }
 
-                            if (resultant.city.toLowerCase().includes(this.search.toLowerCase())) {
-                                return true;
-                            }
-
-                            if (resultant.country.toLowerCase().includes(this.search.toLowerCase())) {
+                            if (resultant.location.toLowerCase().includes(this.search.toLowerCase())) {
                                 return true;
                             }
                         }

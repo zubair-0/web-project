@@ -156,7 +156,7 @@
                     <v-card-title primary-title>
                       <div class="text-xs-left">
                         <div class="headline">{{flight.title}}</div>
-                        <span class="grey--text">{{flight.srcCity}}, {{flight.srcCountry}} - {{flight.destCity}}, {{flight.destCountry}}</span>
+                        <span class="grey--text">{{flight.source}} - {{flight.destination}}</span>
                         <br>
                         <span class="grey--text">{{flight.class}} Class, Price: ${{flight.price}}</span>
                       </div>
@@ -194,113 +194,34 @@
 </template>
 
 <script>
+var axios = require('axios');
+
 export default {
     data() {
         return {
             travelPics: [
                 {
-                    src: require('@/static/airlines/travel4.jpg'),
+                    src: 'https://imgur.com/rvxB65p',
                     title: "Travel By Cruise",
                     text: "What Else Is CruiseAide For?"
                 },
                 {
-                    src: require('@/static/airlines/travel2.jpg'),
+                    src: 'https://imgur.com/f8lRyci',
                     title: "Travel By Air",
                     text: "We Got The Best Airline Ticket Prices"
                 },
                 {
-                    src: require('@/static/airlines/travel3.jpg'),
+                    src: 'https://imgur.com/vYv85pp',
                     title: "Travel By Vehicle",
                     text: "Want To Travel By Road? We Got Rentals For You"
                 },
                 {
-                    src: require('@/static/airlines/travel1.jpg'),
+                    src: 'https://imgur.com/OuF8Lxl',
                     title: "Travel By Train",
                     text: "PreBook And Get The Best Deals on Train Tickets"
                 }
             ],
-            travels: [
-                {
-                    title: 'Emirates',
-                    srcCity: 'Dubai',
-                    srcCountry: 'UAE',
-                    destCity: 'Lahore',
-                    destCountry: 'Pakistan',
-                    class: 'Business',
-                    price: 700,
-                    image: require('@/static/airlines/emirates.png')
-                },
-                {
-                    title: 'Air France',
-                    srcCity: 'London',
-                    srcCountry: 'UK',
-                    destCity: 'Paris',
-                    destCountry: 'France',
-                    class: 'Business',
-                    price: 200,
-                    image: require('@/static/airlines/airfrance.png')
-                },
-                {
-                    title: 'Turkish Airlines',
-                    srcCity: 'Lahore',
-                    srcCountry: 'Pakistan',
-                    destCity: 'Istanbul',
-                    destCountry: 'Turkey',
-                    class: 'First',
-                    price: 1000,
-                    image: require('@/static/airlines/turkish.jpg')
-                },
-                {
-                    title: 'Japan Airlines',
-                    srcCity: 'Tokyo',
-                    srcCountry: 'Japan',
-                    destCity: 'Dubai',
-                    destCountry: 'UAE',
-                    class: 'Business',
-                    price: 2800,
-                    image: require('@/static/airlines/jal.png')
-                },
-                {
-                    title: 'Qatar Airways',
-                    srcCity: 'Abu Dhabi',
-                    srcCountry: 'UAE',
-                    destCity: 'Islamabad',
-                    destCountry: 'Pakistan',
-                    class: 'Economy',
-                    price: 200,
-                    image: require('@/static/airlines/qatar.png')
-                },
-                {
-                    title: 'Air Blue',
-                    srcCity: 'Dubai',
-                    srcCountry: 'UAE',
-                    destCity: 'Lahore',
-                    destCountry: 'Pakistan',
-                    class: 'Economy',
-                    price: 150,
-                    image: require('@/static/airlines/airblue.jpg')
-                },
-                {
-                    title: 'Shaheen Airlines',
-                    srcCity: 'Lahore',
-                    srcCountry: 'Pakistan',
-                    destCity: 'Karachi',
-                    destCountry: 'Pakistan',
-                    class: 'Business',
-                    price: 180,
-                    image: require('@/static/airlines/shaheen.jpg')
-                },
-                {
-                    title: 'Air Canada',
-                    srcCity: 'New York',
-                    srcCountry: 'USA',
-                    destCity: 'Toronto',
-                    destCountry: 'Canada',
-                    class: 'Business',
-                    price: 300,
-                    image: require('@/static/airlines/aircanada.jpg')
-                }
-            ],
+            travels: [],
             airlines: [
                 'Emirates', 'Air France', 'Turkish Airlines', 'Japan Airlines', 'Air Blue', 'Shaheen Airlines', 'PIA', 'Air Canada'
             ],
@@ -310,90 +231,22 @@ export default {
                 airlines: []
             },
             flightClasses: ['First', 'Business', 'Economy'],
-            filteredTravels: [
-                {
-                    title: 'Emirates',
-                    srcCity: 'Dubai',
-                    srcCountry: 'UAE',
-                    destCity: 'Lahore',
-                    destCountry: 'Pakistan',
-                    class: 'Business',
-                    price: 700,
-                    image: require('@/static/airlines/emirates.png')
-                },
-                {
-                    title: 'Air France',
-                    srcCity: 'London',
-                    srcCountry: 'UK',
-                    destCity: 'Paris',
-                    destCountry: 'France',
-                    class: 'Business',
-                    price: 200,
-                    image: require('@/static/airlines/airfrance.png')
-                },
-                {
-                    title: 'Turkish Airlines',
-                    srcCity: 'Lahore',
-                    srcCountry: 'Pakistan',
-                    destCity: 'Istanbul',
-                    destCountry: 'Turkey',
-                    class: 'First',
-                    price: 1000,
-                    image: require('@/static/airlines/turkish.jpg')
-                },
-                {
-                    title: 'Japan Airlines',
-                    srcCity: 'Tokyo',
-                    srcCountry: 'Japan',
-                    destCity: 'Dubai',
-                    destCountry: 'UAE',
-                    class: 'Business',
-                    price: 2800,
-                    image: require('@/static/airlines/jal.png')
-                },
-                {
-                    title: 'Qatar Airways',
-                    srcCity: 'Abu Dhabi',
-                    srcCountry: 'UAE',
-                    destCity: 'Islamabad',
-                    destCountry: 'Pakistan',
-                    class: 'Economy',
-                    price: 200,
-                    image: require('@/static/airlines/qatar.png')
-                },
-                {
-                    title: 'Air Blue',
-                    srcCity: 'Dubai',
-                    srcCountry: 'UAE',
-                    destCity: 'Lahore',
-                    destCountry: 'Pakistan',
-                    class: 'Economy',
-                    price: 150,
-                    image: require('@/static/airlines/airblue.jpg')
-                },
-                {
-                    title: 'Shaheen Airlines',
-                    srcCity: 'Lahore',
-                    srcCountry: 'Pakistan',
-                    destCity: 'Karachi',
-                    destCountry: 'Pakistan',
-                    class: 'Business',
-                    price: 180,
-                    image: require('@/static/airlines/shaheen.jpg')
-                },
-                {
-                    title: 'Air Canada',
-                    srcCity: 'New York',
-                    srcCountry: 'USA',
-                    destCity: 'Toronto',
-                    destCountry: 'Canada',
-                    class: 'Business',
-                    price: 300,
-                    image: require('@/static/airlines/aircanada.jpg')
-                }
-            ],
+            filteredTravels: [],
             search: ''
         };
+    },
+    asyncData () {
+        return new Promise((resolve, reject) => {
+            axios.get('http://127.0.0.1:3000/travels').then(res => {
+                resolve({
+                    filteredTravels: res.data,
+                    travels: res.data
+                })
+            }).catch(err => {
+                console.log(err);
+                reject(arr);
+            })
+        });
     },
     methods: {
         filterResults: function () {
@@ -401,19 +254,11 @@ export default {
                 if (this.travelFilters.price >= resultant.price) {
                     if (this.travelFilters.classes.includes(resultant.class) || this.travelFilters.classes.length === 0) {
                         if (this.travelFilters.airlines.includes(resultant.title) || this.travelFilters.airlines.length === 0) {
-                            if (resultant.srcCity.toLowerCase().includes(this.search.toLowerCase())) {
+                            if (resultant.source.toLowerCase().includes(this.search.toLowerCase())) {
                                 return true;
                             }
 
-                            if (resultant.srcCountry.toLowerCase().includes(this.search.toLowerCase())) {
-                                return true;
-                            }
-
-                            if (resultant.destCity.toLowerCase().includes(this.search.toLowerCase())) {
-                                return true;
-                            }
-
-                            if (resultant.destCountry.toLowerCase().includes(this.search.toLowerCase())) {
+                            if (resultant.destination.toLowerCase().includes(this.search.toLowerCase())) {
                                 return true;
                             }
                         }
