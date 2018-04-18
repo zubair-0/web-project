@@ -18,7 +18,7 @@ module.exports = {
             res.status = 200;
             res.json({
                 'message': 'Added Successfully',
-                'obj': err
+                'obj': result
             });
         })
         .catch((err) => {
@@ -46,7 +46,7 @@ module.exports = {
             res.status = 200;
             res.json({
                 'message': 'Updated Successfully',
-                'obj': err
+                'obj': result
             });
         })
         .catch((err) => {

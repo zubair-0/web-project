@@ -193,7 +193,7 @@ export default {
                 })
             }).catch(err => {
                 console.log(err);
-                reject(arr);
+                reject(err);
             })
         });
     },
