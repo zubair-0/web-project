@@ -6,8 +6,8 @@ var db;
 
 module.exports = {
 	initialize: function() {
-		var adminAccount = require('/home/zubair/Desktop/admin.json');
-		var clientAccount = require('/home/zubair/Desktop/client.json');
+		var adminAccount = require('./admin.json');
+		var clientAccount = require('./client.json');
 
 		admin.initializeApp({
 		  credential: admin.credential.cert(adminAccount)

@@ -123,7 +123,7 @@
                 <v-flex class="my-3" xs12 sm6 md4 lg3 v-for="hotel in filteredAccomodations" :key="hotel.title">
                   <v-card>
                     <v-card-media
-                      v-bind:src="hotel.image"
+                      v-bind:src="hotel.imgUrl"
                       height="200px"
                     >
                     </v-card-media>
@@ -157,8 +157,7 @@
               class="blue lighten-2 mt-5"
               dark
               large
-              href="#"
-              @click="homeClicked"
+              href="/"
             >
               Get Started
             </v-btn>
@@ -176,22 +175,22 @@ export default {
         return {
             accomodationPics: [
                 {
-                    src: 'https://imgur.com/DZslkfj',
+                    src: 'https://imgur.com/DZslkfj.jpg',
                     title: "Wanna See Snow?",
                     text: "Stay In Cold Areas Of The World, But In Warm Places"
                 },
                 {
-                    src: 'https://imgur.com/VxPVziG',
+                    src: 'https://imgur.com/VxPVziG.jpg',
                     title: "Luxurious Living",
                     text: "We Make The Most Luxurious Hotels Affordable Just For You"
                 },
                 {
-                    src: 'https://imgur.com/FTZ1kPp',
+                    src: 'https://imgur.com/FTZ1kPp.jpg',
                     title: "Great Views",
                     text: "We Recommend The Hotels With The Most Amazing Views"
                 },
                 {
-                    src: 'https://imgur.com/iv8o4Ep',
+                    src: 'https://imgur.com/iv8o4Ep.jpg',
                     title: "Islands",
                     text: "Experience The Amazing Life On An Island"
                 }
@@ -209,7 +208,7 @@ export default {
     },
     asyncData () {
         return new Promise((resolve, reject) => {
-            axios.get('http://127.0.0.1:3000/fetchAccomodations').then(res => {
+            axios.get('http://localhost:3000/fetchAccomodations').then(res => {
                 resolve({
                     filteredAccomodations: res.data,
                     accomodations: res.data

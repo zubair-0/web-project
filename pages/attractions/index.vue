@@ -2,7 +2,7 @@
   <v-content> <!-- Content Of Attractions Page Start From Here -->
       <section>
         <v-carousel hide-controls style="height:535px;">
-          <v-carousel-item v-for="(pic,i) in attractionPics" :src="pic.src" :key="i">
+          <v-carousel-item v-for="item in attractionPics" :src="item.src" :key="item.title">
             <v-layout
               column
               align-center
@@ -10,8 +10,8 @@
               class="white--text"
               style="margin-top: 80px;"
             >
-              <h1 class="white--text mb-2 display-3 text-xs-center" style="font-size: 50px;">{{pic.title}}</h1>
-              <h2 class="white--text my-3 text-xs-center">{{pic.text}}</h2>
+              <h1 class="white--text mb-2 display-3 text-xs-center" style="font-size: 50px;">{{item.title}}</h1>
+              <h2 class="white--text my-3 text-xs-center">{{item.text}}</h2>
             </v-layout>
           </v-carousel-item>
         </v-carousel>
@@ -40,7 +40,7 @@
                 <v-flex class="my-3" xs12 sm6 md4 lg3 v-for="place in filteredAttractions" :key="place.title">
                   <v-card>
                     <v-card-media
-                      v-bind:src="place.image"
+                      v-bind:src="place.imgUrl"
                       height="200px"
                     >
                     </v-card-media>
@@ -70,8 +70,7 @@
               class="blue lighten-2 mt-5"
               dark
               large
-              href="#"
-              @click="homeClicked"
+              href="/"
             >
               Get Started
             </v-btn>
@@ -89,22 +88,22 @@ export default {
         return {
             attractionPics: [
                 {
-                    src: 'https://imgur.com/3bQfmnB',
+                    src: "https://imgur.com/3bQfmnB.jpg",
                     title: "Dubai",
                     text: "Visit The Tallest Building In The World"
                 },
                 {
-                    src: 'https://imgur.com/SsWYf8G',
+                    src: 'https://imgur.com/SsWYf8G.jpg',
                     title: "Turkey",
                     text: "Check Out The Heritage Of The Ottoman Empire"
                 },
                 {
-                    src: 'https://imgur.com/Ehp91pZ',
+                    src: 'https://imgur.com/Ehp91pZ.jpg',
                     title: "Italy",
                     text: "See The Architectural Beauty Of The Romans"
                 },
                 {
-                    src: 'https://imgur.com/679Btyc',
+                    src: 'https://imgur.com/679Btyc.jpg',
                     title: "Greece",
                     text: "We Provide You With The Great Views"
                 }
@@ -116,7 +115,8 @@ export default {
     },
     asyncData () {
         return new Promise((resolve, reject) => {
-            axios.get('http://127.0.0.1:3000/fetchAttractions').then(res => {
+            axios.get('http://localhost:3000/fetchAttractions').then(res => {
+                console.log(res.data);
                 resolve({
                     filteredAttractions: res.data,
                     attractions: res.data

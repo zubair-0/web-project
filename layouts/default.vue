@@ -25,7 +25,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar fixed app :clipped-left="clipped">
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn
         icon
         @click.stop="miniVariant = !miniVariant"
@@ -40,8 +40,8 @@
       </v-btn>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-menu bottom offset-y>
-        <v-btn v-if="loggedIn" slot="activator"><v-icon left dark>add_box</v-icon>Add</v-btn>
+      <v-menu v-if="loggedIn" bottom offset-y>
+        <v-btn slot="activator"><v-icon left dark>add_box</v-icon>Add</v-btn>
         <v-list>
           <v-list-tile v-for="adder in adders" :key="adder.title" @click="adder.call">
             <v-list-tile-title><v-icon left dark class="mr-2" v-html="adder.icon"></v-icon>{{ adder.title }}</v-list-tile-title>
@@ -79,6 +79,11 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field v-model="addAttractionLocation" label="Location" hint="Example: Dubai, UAE" required></v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout row wrap>
+                <v-flex xs12>
+                  <input @change="onImageChange" type="file" hint="Select Image" required/>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -429,23 +434,22 @@
           {
             icon: 'favorite_border',
             title: 'Attractions',
-            call: this.addAttraction
+            call: this.addAttractionDialogFunc
           },
           {
             icon: 'restaurant',
             title: 'Restaurants',
-            call: this.addRestaurant
+            call: this.addRestaurantDialogFunc
           },
           {
             icon: 'hotel',
             title: 'Accomodation',
-            call: this.addAccomodation
+            call: this.addAccomodationDialogFunc
           },
           {
             icon: 'flight_takeoff',
             title: 'Travel',
-            disabled: false,
-            call: this.addTravel
+            call: this.addTravelDialogFunc
           }
         ],
         buttons: [
@@ -479,8 +483,8 @@
         },
         cuisine: ['Italian', 'Chinese', 'English', 'Japanese'],
         accomodationTypes: ['Hotel', 'Rental House'],
-        e1: [],
         flightClasses: ['First', 'Business', 'Economy'],
+        e1: [],
         addAttractionDialog: false,
         addRestaurantDialog: false,
         addAccomodationDialog: false,
@@ -510,6 +514,7 @@
         errorMessage: '',
         addAttractionName: '',
         addAttractionLocation: '',
+        selectedImage: ''
       }
     },
     computed: {
@@ -528,13 +533,20 @@
             'password': this.password
           };
 
-          axios.post('http://127.0.0.1:3000/signup', obj).then((res) => {
+          axios.post('http://localhost:3000/signup', obj).then((res) => {
             console.log(res.status);
             
-            if(res.data.message.toLowerCase().indexOf('error') !== -1)
+            if(res.data.message != null)
             {
-              this.errorMessage = res.data.obj.message;
-              this.errorflag = true;
+              if(res.data.message.toLowerCase().indexOf('error') !== -1)
+              {
+                this.errorMessage = res.data.obj.message;
+                this.errorflag = true;
+              }
+            }
+            else
+            {
+              this.signUpDialog = false;
             }
           })
         }
@@ -544,7 +556,7 @@
           email: this.loginEmail,
           password: this.loginPassword
         }
-        axios.post('http://127.0.0.1:3000/login', obj).then((res) => {
+        axios.post('http://localhost:3000/login', obj).then((res) => {
             console.log(res.status);
             
             if(res.data.message != null) 
@@ -563,23 +575,49 @@
             }
           })
       },
+      readFile : function ()
+      {
+        return new Promise((resolve, reject) => {
+          var reader = new FileReader();
+
+          reader.onload = function() {
+            var buffer = reader.result;
+            //console.log(buffer);
+            var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(buffer)));
+            resolve(base64String);
+          }
+
+          reader.readAsArrayBuffer(this.selectedImage);
+        })
+      },
       addAttraction: function () {
         this.errorflag = false;
-        
-        var obj = {
-          name: this.addAttractionName,
-          location: this.addAttractionLocation,
-          image: this.selectedImage
-        }
-        axios.post('http://127.0.0.1:3000/fetchAttractions/new', obj).then((res) => {
-          console.log(res.status);
-          
-          if(res.data.message.toLowerCase().indexOf('error') !== -1)
-          {
-            this.errorMessage = res.data.obj.message;
-            this.errorflag = true;
-          }
+
+        this.readFile().then(enc => {
+          var fd = {
+            title: this.addAttractionName,
+            location: this.addAttractionLocation,
+            image: enc
+          };
+
+          axios.post('http://localhost:3000/addAttraction', fd).then((res) => {
+            console.log(res.status);
+
+            if(res.data.message != null)
+            {
+              if(res.data.message.toLowerCase().indexOf('error') !== -1)
+              {
+                console.log(res.data);
+                this.errorMessage = res.data.obj.message;
+                this.errorflag = true;
+              }
+            }
+          })
         })
+      },
+      onImageChange: function(event) {
+        var buffer;
+        this.selectedImage = event.target.files[0];
       },
       add: function () {
         this.addDialog = true;
@@ -590,16 +628,16 @@
       signup: function () {
         this.signupDialog = true;
       },
-      addAttraction: function () {
+      addAttractionDialogFunc: function () {
         this.addAttractionDialog = true;
       },
-      addRestaurant: function () {
+      addRestaurantDialogFunc: function () {
         this.addRestaurantDialog = true;
       },
-      addAccomodation: function () {
+      addAccomodationDialogFunc: function () {
         this.addAccomodationDialog = true;
       },
-      addTravel: function () {
+      addTravelDialogFunc: function () {
         this.addTravelDialog = true;
       }
     }

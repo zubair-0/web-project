@@ -102,7 +102,7 @@
                 <v-flex class="my-3" xs12 sm6 md4 lg3 v-for="restaurant in filteredRestaurants" :key="restaurant.title">
                   <v-card>
                     <v-card-media
-                      v-bind:src="restaurant.image"
+                      v-bind:src="restaurant.imgUrl"
                       height="200px"
                     >
                     </v-card-media>
@@ -135,8 +135,7 @@
               class="blue lighten-2 mt-5"
               dark
               large
-              href="#"
-              @click="homeClicked"
+              href="/"
             >
               Get Started
             </v-btn>
@@ -154,22 +153,22 @@ export default {
         return {
             restaurantPics: [
                 {
-                    src: 'https://imgur.com/WQTxeH4',
+                    src: 'https://imgur.com/WQTxeH4.jpg',
                     title: "Indoor",
                     text: "We Recommend The Best Indoor Restaurants"
                 },
                 {
-                    src: 'https://imgur.com/oQzKLgR',
+                    src: 'https://imgur.com/oQzKLgR.jpg',
                     title: "Outdoor",
                     text: "In Mood For Outdoor Sitting? We Got You Covered"
                 },
                 {
-                    src: 'https://imgur.com/8WF7aRf',
+                    src: 'https://imgur.com/8WF7aRf.jpg',
                     title: "Cheaper",
                     text: "Running Low On Budget? We Got Just The Places For You"
                 },
                 {
-                    src: 'https://imgur.com/vSQdKt1',
+                    src: 'https://imgur.com/vSQdKt1.jpg',
                     title: "Royalty",
                     text: "Experience The Most Luxurious Restaurants Around The World"
                 }
@@ -186,7 +185,7 @@ export default {
     },
     asyncData () {
         return new Promise((resolve, reject) => {
-            axios.get('http://127.0.0.1:3000/fetchRestaurants').then(res => {
+            axios.get('http://localhost:3000/fetchRestaurants').then(res => {
                 resolve({
                     filteredRestaurants: res.data,
                     restaurants: res.data

@@ -9,3 +9,9 @@ npm-debug.log
 
 # Nuxt generate
 dist
+
+server/models/admin\.json
+
+server/models/client\.json
+
+server/controllers/imgur-cred\.json
