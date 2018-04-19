@@ -5,12 +5,13 @@ const app = express();
 const host = process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 3000;
 
-const model = require('./models/model.js');
+//const model = require('./models/model.js');
 const user = require('./controllers/user.js');
 const attraction = require('./controllers/attraction.js');
 const accomodation = require('./controllers/accomodation.js');
 const restaurant = require('./controllers/restaurant.js');
 const travel = require('./controllers/travel.js');
+const image = require('./controllers/image.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -36,30 +37,41 @@ async function start() {
   // Listen the server
   app.listen(port, host);
   console.log('Server listening on http://' + host + ':' + port); // eslint-disable-line no-console
-  model.initialize();
+  user.initialize();
+  image.initialize();
+  //model.initialize();
 }
 
+app.post('/test', (req, res) => {
+  console.log(req.body);
+  uploadImage(req.body.image).then((link) => {
+
+
+    res.status = 200;
+    res.json({});
+  }).catch(err => {
+    res.status = 401;
+    res.json({message: 'Error uploading image', obj: err});
+  });
+});
+
 app.post('/signup', user.signup);
-app.post('/signin', user.signin);
+app.post('/login', user.signin);
 
 app.get('/fetchAttractions', attraction.getAllAttractions);
-app.put('/fetchAttractions/:id', attraction.updateAttraction);
-app.post('/fetchAttractions/new', attraction.addAttraction);
 app.get('/fetchAttractions/:id', attraction.getAttraction);
+app.post('/addAttraction', attraction.addAttraction);
 
 app.get('/fetchRestaurants', restaurant.getAllRestaurants);
-app.put('/fetchRestaurants/:id', restaurant.updateRestaurant);
-app.post('/fetchRestaurants/new', restaurant.addRestaurant);
 app.get('/fetchRestaurants/:id', restaurant.getRestaurant);
+app.post('/addRestaurant', restaurant.addRestaurant);
 
 app.get('/fetchAccomodations', accomodation.getAllAccomodations);
-app.put('/fetchAccomodations/:id', accomodation.updateAccomodation);
-app.post('/fetchAccomodations/new', accomodation.addAccomodation);
 app.get('/fetchAccomodations/:id', accomodation.getAccomodation);
+app.post('/addAccomodation', accomodation.addAccomodation);
 
 app.get('/fetchTravels', travel.getAllTravels);
-app.put('/fetchTravels/:id', travel.updateTravel);
-app.post('/fetchTravels/new', travel.addTravel);
 app.get('/fetchTravels/:id', travel.getTravel);
+app.post('/addTravel', travel.addTravel);
 
 start();

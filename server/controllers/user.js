@@ -30,15 +30,16 @@ module.exports = {
 
         model.loginUser(email, password)
         .then((result) => {
-            res.status = 200;
-            res.json({});
+            res.status(201).json({
+                message: 'SignedIn Successfully',
+                obj: result
+            })
         })
         .catch((err) => {
-            res.status = 777;
-            res.json({
-                'message': 'Error Signing In',
-                'obj': err
-            });
+            res.status(500).json({
+                message: 'Error Signing In',
+                obj: err
+            })
         });
     }
 }

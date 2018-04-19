@@ -149,7 +149,7 @@
                 <v-flex class="my-3" xs12 sm6 md4 lg3 v-for="flight in filteredTravels" :key="flight.title">
                   <v-card>
                     <v-card-media
-                      v-bind:src="flight.image"
+                      v-bind:src="flight.imgUrl"
                       height="200px"
                     >
                     </v-card-media>
@@ -182,8 +182,7 @@
               class="blue lighten-2 mt-5"
               dark
               large
-              href="#"
-              @click="homeClicked"
+              href="/"
             >
               Get Started
             </v-btn>
@@ -201,22 +200,22 @@ export default {
         return {
             travelPics: [
                 {
-                    src: 'https://imgur.com/rvxB65p',
+                    src: 'https://imgur.com/rvxB65p.jpg',
                     title: "Travel By Cruise",
                     text: "What Else Is CruiseAide For?"
                 },
                 {
-                    src: 'https://imgur.com/f8lRyci',
+                    src: 'https://imgur.com/f8lRyci.jpg',
                     title: "Travel By Air",
                     text: "We Got The Best Airline Ticket Prices"
                 },
                 {
-                    src: 'https://imgur.com/vYv85pp',
+                    src: 'https://imgur.com/vYv85pp.jpg',
                     title: "Travel By Vehicle",
                     text: "Want To Travel By Road? We Got Rentals For You"
                 },
                 {
-                    src: 'https://imgur.com/OuF8Lxl',
+                    src: 'https://imgur.com/OuF8Lxl.jpg',
                     title: "Travel By Train",
                     text: "PreBook And Get The Best Deals on Train Tickets"
                 }
@@ -237,7 +236,7 @@ export default {
     },
     asyncData () {
         return new Promise((resolve, reject) => {
-            axios.get('http://127.0.0.1:3000/fetchTravels').then(res => {
+            axios.get('http://localhost:3000/fetchTravels').then(res => {
                 resolve({
                     filteredTravels: res.data,
                     travels: res.data

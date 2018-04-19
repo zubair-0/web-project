@@ -54,7 +54,7 @@ export default {
   },
   asyncData(context) {
       return new Promise((resolve, reject) => {
-          var url = 'http://127.0.0.1:3000/fetchTravels/' + context.params.id;
+          var url = 'http://localhost:3000/fetchTravels/' + context.params.id;
           console.log(url);
           axios.get(url).then(res => {
               console.log(res.data);

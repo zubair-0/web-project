@@ -18,13 +18,14 @@
     "express": "^4.15.3",
     "firebase": "^4.12.1",
     "firebase-admin": "^5.12.0",
+    "imgur": "^0.2.1",
     "nuxt": "^1.0.0",
     "vue-star-rating": "^1.5.1",
     "vuetify": "^0.17.3"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
-    "cross-env": "^5.0.1",
+    "cross-env": "^5.1.4",
     "eslint": "^4.15.0",
     "eslint-loader": "^1.7.1",
     "eslint-plugin-vue": "^4.0.0",
