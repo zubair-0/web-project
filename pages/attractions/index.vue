@@ -52,7 +52,9 @@
                     </v-card-title>
                     <v-card-actions>
                       <v-btn flat>Share</v-btn>
-                      <v-btn flat color="primary">Details</v-btn>
+                      <nuxt-link :to="'/attractions/' + camelify(place.title)">
+                        <v-btn flat color="primary">Details</v-btn>
+                      </nuxt-link>
                       <v-spacer></v-spacer>
                     </v-card-actions>
                   </v-card>
@@ -82,6 +84,7 @@
 
 <script>
 var axios = require('axios');
+var camelCase = require('camel-case');
 
 export default {
     data () {
@@ -138,6 +141,9 @@ export default {
                 }
                 return false;
             });
+        },
+        camelify: function(str) {
+          return camelCase(str);
         }
     }
 }

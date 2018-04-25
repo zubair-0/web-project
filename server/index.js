@@ -5,7 +5,7 @@ const app = express();
 const host = process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 3000;
 
-//const model = require('./models/model.js');
+const model = require('./models/model.js');
 const user = require('./controllers/user.js');
 const attraction = require('./controllers/attraction.js');
 const accomodation = require('./controllers/accomodation.js');
@@ -73,5 +73,91 @@ app.post('/addAccomodation', accomodation.addAccomodation);
 app.get('/fetchTravels', travel.getAllTravels);
 app.get('/fetchTravels/:id', travel.getTravel);
 app.post('/addTravel', travel.addTravel);
+
+app.post('/addRestaurantRating', (req, res) => {
+  var title = req.body.title;
+  var user = req.body.user;
+  var rating = req.body.rating;
+  var review = req.body.review;
+
+  model.addRestaurantRating(title, user, rating, review)
+  .then((result) => {
+      res.status = 200;
+      res.json({
+          'message': 'Added Successfully',
+          'obj': result
+      });
+  })
+  .catch((err) => {
+      res.status = 777;
+      res.json({
+          'message': 'Error Adding',
+          'obj': err
+      });
+  });
+});
+
+app.post('/getRestaurantRating', (req, res) => {
+  var title = req.body.title;
+
+  model.getRestaurantRating(title)
+  .then((result) => {
+      res.status = 200;
+      res.json({
+          'message': 'Added Successfully',
+          'obj': result
+      });
+  })
+  .catch((err) => {
+      res.status = 777;
+      res.json({
+          'message': 'Error Adding',
+          'obj': err
+      });
+  });
+});
+
+app.post('/addAccomodationRating', (req, res) => {
+  var title = req.body.title;
+  var user = req.body.user;
+  var rating = req.body.rating;
+  var review = req.body.review;
+
+  model.addAccomodationRating(title, user, rating, review)
+  .then((result) => {
+      res.status = 200;
+      res.json({
+          'message': 'Added Successfully',
+          'obj': result
+      });
+  })
+  .catch((err) => {
+      res.status = 777;
+      res.json({
+          'message': 'Error Adding',
+          'obj': err
+      });
+  });
+});
+
+app.post('/getAccomodationRating', (req, res) => {
+  var title = req.body.title;
+
+  model.getAccomodationRating(title)
+  .then((result) => {
+      res.status = 200;
+      res.json({
+          'message': 'Added Successfully',
+          'obj': result
+      });
+  })
+  .catch((err) => {
+      res.status = 777;
+      res.json({
+          'message': 'Error Adding',
+          'obj': err
+      });
+  });
+});
 
 start();

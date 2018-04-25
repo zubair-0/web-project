@@ -297,7 +297,79 @@ module.exports = {
 		      reject(err);
 		    });
 		})
-	}
+	},
+
+	addRestaurantRating: function(title, user, rating, review) {
+		return new Promise((resolve, reject) => {
+		  var id = camelCase(title) + '-' + camelCase(user);
+		  var docRef = db.collection('restaurantRating').doc(id);
+	
+		  var setRef = docRef.set({
+			title: title,
+			user: user,
+			rating: rating,
+			review: review
+		  }).then((ref) => {
+			resolve(ref);
+		  }).catch((err) => {
+			reject(err);
+		  });
+		});
+	  },
+	
+	  getRestaurantRating: function(title) {
+		return new Promise((resolve, reject) => {
+		  db.collection("restaurantRating").where("title", "==", title)
+			.get()
+			.then(function(querySnapshot) {
+						var data = []
+			  querySnapshot.forEach(function(doc) {
+				// doc.data() is never undefined for query doc snapshots
+				data.push(doc.data());
+			  });
+						resolve(data);
+			})
+			.catch(function(error) {
+			  reject(error);
+			});
+		});
+	  },
+	
+	  addAccomodationRating: function(title, user, rating, review) {
+		return new Promise((resolve, reject) => {
+		  var id = camelCase(title) + '-' + camelCase(user);
+		  var docRef = db.collection('accomodationRating').doc(id);
+	
+		  var setRef = docRef.set({
+			title: title,
+			user: user,
+			rating: rating,
+			review: review
+		  }).then((ref) => {
+			resolve(ref);
+		  }).catch((err) => {
+			reject(err);
+		  });
+		});
+	  },
+	
+	  getAccomodationRating: function(title) {
+		return new Promise((resolve, reject) => {
+		  db.collection("accomodationRating").where("title", "==", title)
+			.get()
+			.then(function(querySnapshot) {
+						var data = []
+			  querySnapshot.forEach(function(doc) {
+				// doc.data() is never undefined for query doc snapshots
+				data.push(doc.data());
+			  });
+						resolve(data);
+			})
+			.catch(function(error) {
+			  reject(error);
+			});
+		});
+	  }
 }
 
 // model.addAttraction('Mount Fuji', 'Tokyo, Japan', 'https://i.imgur.com/dAof5Vy.jpg')

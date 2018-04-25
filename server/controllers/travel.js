@@ -9,7 +9,7 @@ module.exports = {
         title = req.body.title;
         source = req.body.source;
         destination = req.body.destination;
-        cls = req.body.cls;
+        cls = req.body.class;
         price = req.body.price;
         imgUrl = req.body.imgUrl;
         

@@ -40,7 +40,7 @@
       </v-btn>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-menu v-if="loggedIn" bottom offset-y>
+      <v-menu v-if="loggedIn && isBusinessUser" bottom offset-y>
         <v-btn slot="activator"><v-icon left dark>add_box</v-icon>Add</v-btn>
         <v-list>
           <v-list-tile v-for="adder in adders" :key="adder.title" @click="adder.call">
@@ -54,7 +54,7 @@
       <v-menu v-if="loggedIn" bottom offset-y>
         <v-btn slot="activator" flat><v-icon left dark>person</v-icon>{{ username }}</v-btn>
         <v-list>
-          <v-list-tile @click="loggedIn = false">
+          <v-list-tile @click="loggedIn = false; isBusinessUser = false; $store.commit('unsetLogin');">
             <v-icon style="margin-right: 10px" dark>cloud_off</v-icon><v-list-tile-title>Log Out</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -73,17 +73,17 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="addAttractionName" label="Name" hint="Example: Burj Khalifa" required></v-text-field>
+                  <v-text-field v-model="newAttractionName" label="Name" hint="Example: Burj Khalifa" required></v-text-field>
                 </v-flex>
               </v-layout>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="addAttractionLocation" label="Location" hint="Example: Dubai, UAE" required></v-text-field>
+                  <v-text-field v-model="newAttractionLocation" label="Location" hint="Example: Dubai, UAE" required></v-text-field>
                 </v-flex>
               </v-layout>
               <v-layout row wrap>
                 <v-flex xs12>
-                  <input @change="onImageChange" type="file" hint="Select Image" required/>
+                  <input @change="onImageUpload" type="file" hint="Select Image" required/>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -108,17 +108,12 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Name" hint="Example: Salt N Pepper" required></v-text-field>
+                  <v-text-field v-model="newRestaurantName" label="Name" hint="Example: Salt N Pepper" required></v-text-field>
                 </v-flex>
               </v-layout>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="City" hint="Example: London" required></v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field label="Country" hint="Example: UK" required></v-text-field>
+                  <v-text-field v-model="newRestaurantLocation" label="Location" hint="Example: London, UK" required></v-text-field>
                 </v-flex>
               </v-layout>
               <v-layout row wrap>
@@ -127,7 +122,13 @@
                     :items="cuisine"
                     label="Select Cuisine"
                     single-line
+                    v-model="newRestaurantCuisines"
                   ></v-select>
+                </v-flex>
+              </v-layout>
+              <v-layout row wrap>
+                <v-flex xs12>
+                  <input @change="onImageUpload" type="file" hint="Select Image" required/>
                 </v-flex>
               </v-layout>
               <star-rating :star-size="20" :increment="0.01"></star-rating>
@@ -137,7 +138,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click.native="addRestaurantDialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="addRestaurantDialog = false">Add</v-btn>
+            <v-btn color="blue darken-1" flat @click="addRestaurant">Add</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -153,17 +154,12 @@
             <v-container grid-list-md>
               <v-layout row wrap>
                 <v-flex xs12>
-                  <v-text-field label="Name" hint="Example: Pearl Continental" required></v-text-field>
+                  <v-text-field v-model="newAccomodationName" label="Name" hint="Example: Pearl Continental" required></v-text-field>
                 </v-flex>
               </v-layout>
               <v-layout row wrap>
                 <v-flex xs12>
-                  <v-text-field label="City" hint="Example: Lahore" required></v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-layout row wrap>
-                <v-flex xs12>
-                  <v-text-field label="Country" hint="Example: PK" required></v-text-field>
+                  <v-text-field v-model="newAccomodationLocation" label="Location" hint="Example: Lahore, PK" required></v-text-field>
                 </v-flex>
               </v-layout>
               <v-layout row wrap>
@@ -173,6 +169,7 @@
                     label="Price"
                     id="price"
                     mask="#####"
+                    v-model="newAccomodationPrice"
                   ></v-text-field>
                 </v-flex>
               </v-layout>
@@ -180,9 +177,9 @@
                 <v-flex xs12>
                   <v-select
                     :items="accomodationTypes"
-                    v-model="e1"
                     label="Select Type"
                     single-line
+                    v-model="newAccomodationType"
                   ></v-select>
                 </v-flex>
               </v-layout>
@@ -212,6 +209,11 @@
                   </v-expansion-panel>
                 </v-flex>
               </v-layout>
+              <v-layout row wrap>
+                <v-flex xs12>
+                  <input @change="onImageUpload" type="file" hint="Select Image" required/>
+                </v-flex>
+              </v-layout>
               <star-rating :star-size="20" :increment="0.01"></star-rating>
             </v-container>
             <small>*indicates required field</small>
@@ -219,7 +221,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click.native="addAccomodationDialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="addAccomodationDialog = false">Add</v-btn>
+            <v-btn color="blue darken-1" flat @click="addAccomodation">Add</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -235,22 +237,12 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Source City" hint="Example: Dubai" required></v-text-field>
+                  <v-text-field v-model="newTravelSource" label="Source Location" hint="Example: Dubai, UAE" required></v-text-field>
                 </v-flex>
               </v-layout>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Source Country" hint="Example: UAE" required></v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field label="Destination City" hint="Example: Lahore" required></v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field label="Destination Country" hint="Example: Pakistan" required></v-text-field>
+                  <v-text-field v-model="newTravelDestination" label="Destination Location" hint="Example: London, UK" required></v-text-field>
                 </v-flex>
               </v-layout>
               <v-layout row wrap>
@@ -259,6 +251,7 @@
                     :items="airlines"
                     label="Select Airline"
                     single-line
+                    v-model="newTravelAirline"
                   ></v-select>
                 </v-flex>
               </v-layout>
@@ -268,6 +261,7 @@
                     :items="flightClasses"
                     label="Flight Class"
                     single-line
+                    v-model="newTravelClass"
                   ></v-select>
                 </v-flex>
               </v-layout>
@@ -278,7 +272,13 @@
                     label="Price"
                     id="ticketPrice"
                     mask="#####"
+                    v-model="newTravelPrice"
                   ></v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout row wrap>
+                <v-flex xs12>
+                  <input @change="onImageUpload" type="file" hint="Select Image" required/>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -287,7 +287,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click.native="addTravelDialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="addTravelDialog = false">Add</v-btn>
+            <v-btn color="blue darken-1" flat @click="addTravel">Add</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -306,7 +306,7 @@
                     name="email"
                     label="Email"
                     id="email"
-                    v-model="loginEmail"
+                    v-model="signinEmail"
                     type="email"
                     hint="Example: john.doe@mail.com"
                     :rules="emailRules"
@@ -319,7 +319,7 @@
                     name="password"
                     label="Password"
                     id="password"
-                    v-model="loginPassword"
+                    v-model="signinPassword"
                     type="password"
                     required
                   >
@@ -484,20 +484,19 @@
         cuisine: ['Italian', 'Chinese', 'English', 'Japanese'],
         accomodationTypes: ['Hotel', 'Rental House'],
         flightClasses: ['First', 'Business', 'Economy'],
-        e1: [],
         addAttractionDialog: false,
         addRestaurantDialog: false,
         addAccomodationDialog: false,
         addTravelDialog: false,
         loginDialog: false,
-        loginEmail: '',
-        loginPassword: '',
+        signinEmail: '',
+        signinPassword: '',
         loggedIn: true,
         signupDialog: false,
         miniVariant: true,
         right: true,
         title: 'CruiseAide',
-        username: 'zubair',
+        username: 'zubair.ejaz@gmail.com',
         name: '',
         email: '',
         password: '',
@@ -512,9 +511,22 @@
         ],
         errorFlag: false,
         errorMessage: '',
-        addAttractionName: '',
-        addAttractionLocation: '',
-        selectedImage: ''
+        newAttractionName: '',
+        newAttractionLocation: '',
+        newRestaurantName: '',
+        newRestaurantLocation: '',
+        newRestaurantCuisines: [],
+        newAccomodationName: '',
+        newAccomodationLocation: '',
+        newAccomodationPrice: '',
+        newAccomodationType: '',
+        newTravelSource: '',
+        newTravelDestination: '',
+        newTravelAirline: '',
+        newTravelClass: '',
+        newTravelPrice: '',
+        selectedImage: '',
+        isBusinessUser: true
       }
     },
     computed: {
@@ -534,14 +546,14 @@
           };
 
           axios.post('http://localhost:3000/signup', obj).then((res) => {
-            console.log(res.status);
+            console.log(res);
             
             if(res.data.message != null)
             {
               if(res.data.message.toLowerCase().indexOf('error') !== -1)
               {
                 this.errorMessage = res.data.obj.message;
-                this.errorflag = true;
+                this.errorFlag = true;
               }
             }
             else
@@ -553,24 +565,30 @@
       },
       signIn: function() {
         var obj = {
-          email: this.loginEmail,
-          password: this.loginPassword
+          email: this.signinEmail,
+          password: this.signinPassword
         }
         axios.post('http://localhost:3000/login', obj).then((res) => {
-            console.log(res.status);
+            console.log(res);
             
             if(res.data.message != null) 
             {
               if(res.data.message.toLowerCase().indexOf('error') !== -1)
               {
                 this.errorMessage = res.data.obj.message;
-                this.errorflag = true;
+                this.errorFlag = true;
               }
               else
               {
                 this.loggedIn = true;
-                this.username = this.loginEmail;
+                this.username = this.signinEmail;
                 this.loginDialog = false;
+
+                this.$store.commit('update', this.loginEmail);
+                this.$store.commit('setLogin');
+                if (this.signinEmail == 'zubair.ejaz@gmail.com') {
+                  this.isBusinessUser = true;
+                }
               }
             }
           })
@@ -595,8 +613,8 @@
 
         this.readFile().then(enc => {
           var fd = {
-            title: this.addAttractionName,
-            location: this.addAttractionLocation,
+            title: this.newAttractionName,
+            location: this.newAttractionLocation,
             image: enc
           };
 
@@ -609,13 +627,94 @@
               {
                 console.log(res.data);
                 this.errorMessage = res.data.obj.message;
-                this.errorflag = true;
+                this.errorFlag = true;
               }
             }
           })
         })
       },
-      onImageChange: function(event) {
+      addAccomodation: function () {
+        this.errorflag = false;
+
+        this.readFile().then(enc => {
+          var fd = {
+            title: this.newAccomodationName,
+            location: this.newAccomodationLocation,
+            price: this.newAccomodationPrice,
+            type: this.newAccomodationType,
+            image: enc
+          };
+
+          axios.post('http://localhost:3000/addAccomodation', fd).then((res) => {
+            console.log(res.status);
+
+            if(res.data.message != null)
+            {
+              if(res.data.message.toLowerCase().indexOf('error') !== -1)
+              {
+                console.log(res.data);
+                this.errorMessage = res.data.obj.message;
+                this.errorFlag = true;
+              }
+            }
+          })
+        })
+      },
+      addRestaurant: function () {
+        this.errorflag = false;
+
+        this.readFile().then(enc => {
+          var fd = {
+            title: this.newRestuarantName,
+            location: this.newRestuarantLocation,
+            newcuisines: this.newRestaurantCuisines,
+            image: enc
+          };
+
+          axios.post('http://localhost:3000/addRestaurant', fd).then((res) => {
+            console.log(res.status);
+
+            if(res.data.message != null)
+            {
+              if(res.data.message.toLowerCase().indexOf('error') !== -1)
+              {
+                console.log(res.data);
+                this.errorMessage = res.data.obj.message;
+                this.errorFlag = true;
+              }
+            }
+          })
+        })
+      },
+      addTravel: function () {
+        this.errorflag = false;
+
+        this.readFile().then(enc => {
+          var fd = {
+            source: this.newTravelSource,
+            destination: this.newTravelDestination,
+            airline: this.newTravelAirline,
+            class: this.newTravelClass,
+            price: this.newTravelPrice,
+            image: enc
+          };
+
+          axios.post('http://localhost:3000/addTravel', fd).then((res) => {
+            console.log(res.status);
+
+            if(res.data.message != null)
+            {
+              if(res.data.message.toLowerCase().indexOf('error') !== -1)
+              {
+                console.log(res.data);
+                this.errorMessage = res.data.obj.message;
+                this.errorFlag = true;
+              }
+            }
+          })
+        })
+      },
+      onImageUpload: function(event) {
         var buffer;
         this.selectedImage = event.target.files[0];
       },

@@ -8,28 +8,38 @@ module.exports = {
     addAccomodation: function(req, res) {
         title = req.body.title;
         location = req.body.location;
-        imgUrl = req.body.imgUrl;
         price = req.body.price;
         features = req.body.features;
         type = req.body.type;
         rating = req.body.rating;
 
-        model.addAccomodation(title, location, imgUrl, price, features, type, rating)
-        .then((result) => {
-            res.status = 200;
-            res.json({
-                'message': 'Added Successfully',
-                'obj': result
-            });
-        })
-        .catch((err) => {
-            res.status = 777;
-            res.json({
-                'message': 'Error Adding',
-                'obj': err
-            });
-        });
+        var encodedImage = req.body.image;
+
+      image.uploadImage(encodedImage).then((link) => {
+          model.addAccomodation(title, location, link, price, features, type, 4)
+          .then((result) => {
+              res.status = 200;
+              res.json({
+                  'message': 'Added Successfully',
+                  'obj': result
+              });
+          })
+          .catch((err) => {
+              res.status = 777;
+              res.json({
+                  'message': 'Error Adding',
+                  'obj': err
+              });
+          });
+      }).catch(err => {
+          res.status = 777;
+          res.json({
+              'message': 'Error Uploading',
+              'obj': err
+          });
+      });
     },
+
 
     updateAccomodation: function(req, res) {
         id = req.params.id
