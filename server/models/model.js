@@ -37,42 +37,6 @@ module.exports = {
 		});
 	},
 
-	loginWithFacebook: function() {
-		return new Promise((resolve, reject) => {
-			var provider = new firebase.auth.FacebookAuthProvider();
-
-			firebase.auth().signInWithPopup(provider).then(function(result) {
-				// This gives you a Facebook Access Token. You can use it to access the Facebook API.
-				var token = result.credential.accessToken;
-				// The signed-in user info.
-				var user = result.user;
-				// ...
-				resolve({username: user, accessToken: token})
-			}).catch(function(error) {
-				// Handle Errors here.
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				// The email of the user's account used.
-				var email = error.email;
-				// The firebase.auth.AuthCredential type that was used.
-				var credential = error.credential;
-				// ...
-				reject(errorCode + errorMessage + email + credential);
-			});
-		});
-	},
-
-	logoutWithFacebook: function() {
-		return new Promise((resolve, reject) => {
-			firebase.auth().signOut().then(function() {
-				resolve("Signed Out Successfully");
-			}).catch(function(error) {
-				// An error happened.
-				reject(error);
-			});
-		});
-	},
-
 	loginUser: function (email, password) {
 		return new Promise((resolve, reject) => {
 			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {

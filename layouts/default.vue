@@ -54,7 +54,7 @@
       <v-menu v-if="loggedIn" bottom offset-y>
         <v-btn slot="activator" flat><v-icon left dark>person</v-icon>{{ username }}</v-btn>
         <v-list>
-          <v-list-tile @click="loggedIn = false; isBusinessUser = false; $store.commit('unsetLogin');">
+          <v-list-tile @click="logOut">
             <v-icon style="margin-right: 10px" dark>cloud_off</v-icon><v-list-tile-title>Log Out</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -299,12 +299,14 @@
           <span class="headline">Login</span>
         </v-card-title>
         <v-card-text>
-          <v-btn fab dark large color="purple">
-            <v-icon dark>android</v-icon>
-            <span class="headline">Login with Facebook</span>
-          </v-btn>
           <v-container grid-list-md>
             <v-layout row wrap>
+              <v-flex xs12>
+                <v-btn fab dark large color="purple"  @click="signInWithFacebook">
+                  <v-icon dark>android</v-icon>
+                </v-btn>
+                <span class="headline">Login with Facebook</span>
+              </v-flex>
               <v-flex xs12>
                 <v-text-field
                     name="email"
@@ -420,6 +422,10 @@
 
 <script>
   var axios = require('axios');
+  var firebase = require('firebase');
+
+  var clientAccount = require('../server/models/client.json');
+    
 
   export default {
     data() {
@@ -495,7 +501,7 @@
         loginDialog: false,
         signinEmail: '',
         signinPassword: '',
-        loggedIn: true,
+        loggedIn: false,
         signupDialog: false,
         miniVariant: true,
         right: true,
@@ -530,7 +536,8 @@
         newTravelClass: '',
         newTravelPrice: '',
         selectedImage: '',
-        isBusinessUser: true
+        isBusinessUser: true,
+        withFacebook: false
       }
     },
     computed: {
@@ -596,6 +603,56 @@
               }
             }
           })
+      },
+      signInWithFacebook: function() {
+        var config = clientAccount;
+        firebase.initializeApp(config);
+
+        var provider = new firebase.auth.FacebookAuthProvider();
+        provider.addScope('user_friends');  // need the list of friends to get their reviews and rating on our app
+
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+          var token = result.credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          // ...
+
+          console.log(token);
+          console.log(user);
+          
+        }).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // ...
+          console.log(error);
+
+          // reject(errorCode + errorMessage + email + credential);
+        });
+      },
+      signOutWithFacebook: function() {
+        firebase.auth().signOut().then(function() {
+          console.log("Signed Out Successfully");
+        }).catch(function(error) {
+          // An error happened.
+          console.log(error);
+        });         
+      },
+      logOut: function() {
+        if (this.withFacebook) {
+          this.withFacebook = false;
+          signOutWithFacebook();
+        }
+        else {
+          this.loggedIn = false;
+        }
+        this.isBusinessUser = false;
+        $store.commit('unsetLogin');
       },
       readFile : function ()
       {
