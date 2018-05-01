@@ -299,6 +299,10 @@
           <span class="headline">Login</span>
         </v-card-title>
         <v-card-text>
+          <v-btn fab dark large color="purple">
+            <v-icon dark>android</v-icon>
+            <span class="headline">Login with Facebook</span>
+          </v-btn>
           <v-container grid-list-md>
             <v-layout row wrap>
               <v-flex xs12>
