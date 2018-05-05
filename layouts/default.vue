@@ -618,7 +618,7 @@
         }
 
         var provider = new firebase.auth.FacebookAuthProvider();
-        //provider.addScope('user_friends');  // need the list of friends to get their reviews and rating on our app
+        provider.addScope('user_friends');  // need the list of friends to get their reviews and rating on our app
 
         return new Promise((resolve, reject) => {
           firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -670,20 +670,22 @@
           }
 
           // console.log(token);
-          console.log(user);
-          console.log(userInfo);
+          // console.log(user);
+          // console.log(userInfo);
 
           var id = userInfo.id;
           axios.get('https://graph.facebook.com/v3.0/' + id + '/friends?access_token=' + token)
           .then((result) => {
-            // console.log(result);
+            console.log(result.data.data);
 
-            this.friendsList = result.data.data;
+            result.data.data.forEach(element => {
+              this.friendsList.push(element.id)
+            });
             this.total_friends = result.data.summary.total_count;
             
             // console.log("Friend List with our App");
-            // console.log(this.friendsList);
-            // console.log(this.total_friends);
+            console.log(this.friendsList);
+            console.log(this.total_friends);
           })
           .catch((error) => {
             console.log(error);
