@@ -539,7 +539,9 @@
         isBusinessUser: false,
         businessUsers: ['zubair.ejaz@live.com', 'zubair.ejaz@gmail.com'],
         withFacebook: false,
-        appInitialized: false
+        appInitialized: false,
+        friendsList: [],
+        total_friends: 0
       }
     },
     computed: {
@@ -598,6 +600,7 @@
                 this.loginDialog = false;
 
                 this.$store.commit('update', this.signinEmail);
+                this.$store.commit('setID', 0);
                 this.$store.commit('setLogin');
                 
                 if (this.businessUsers.includes(this.signinEmail)) {
@@ -656,41 +659,58 @@
           this.withFacebook = true;
 
           this.$store.commit('update', user.displayName);
+          this.$store.commit('setID', userInfo.id);
           this.$store.commit('setLogin');
           if (this.businessUsers.includes(user.email)) {
-            console.log("Business User");
+            // console.log("Business User");
             this.isBusinessUser = true;
           }
           else {
-            console.log("NOT A Business User");
+            // console.log("Normal User");
           }
 
           // console.log(token);
-          // console.log(user);
-          // console.log(userInfo);
+          console.log(user);
+          console.log(userInfo);
 
           var id = userInfo.id;
-
           axios.get('https://graph.facebook.com/v3.0/' + id + '/friends?access_token=' + token)
           .then((result) => {
             // console.log(result);
 
-            var friends = result.data.data;
-            var total_friends = result.data.summary.total_count;
-
-            console.log("Friend List with our App");
-            console.log(friends);
-            console.log(total_friends);
+            this.friendsList = result.data.data;
+            this.total_friends = result.data.summary.total_count;
+            
+            // console.log("Friend List with our App");
+            // console.log(this.friendsList);
+            // console.log(this.total_friends);
           })
           .catch((error) => {
             console.log(error);
           });
 
+          // console.log(this.friendsList);
+          // console.log(this.total_friends);
+          var obj = {
+            userid: userInfo.id,
+            email: userInfo.email,
+            name: userInfo.name,
+            accessToken: token,
+            friends: this.friendsList
+          }
+          console.log("Object");
+          console.log(obj);
+
+          axios.post('http://localhost:3000/addFacebookUser', obj).then((resc) => {
+            console.log(resc);
+          })
+          .catch((errc) => {
+            console.log(errc);
+          });
+
         })
-        .catch((err) => {
-          
+        .catch((err) => {   
           console.log(err);
-        
         })
       },
       signOutWithFacebook: function() {

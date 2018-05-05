@@ -3,12 +3,16 @@ import Vuex from 'vuex'
 const bindUser = () => {
   return new Vuex.Store({
     state: {
-      username: 'zubair.ejaz@gmail.com',
+      username: '',
+      userid: '',
       loggedIn: true,
     },
     mutations: {
-      update (state, text) {
-        state.username = text;
+      update (state, name) {
+        state.username = name;
+      },
+      setID (state, id) {
+        state.userid = id;
       },
       setLogin (state) {
         state.loggedIn = true;

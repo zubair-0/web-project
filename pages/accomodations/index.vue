@@ -64,7 +64,7 @@
                     disabled="true"
                   ></v-text-field>
                 </v-flex>
-                <v-flex xs8 offset-xs2 v-model="showFilters">
+                <v-flex xs8 offset-xs2>
                   <v-expansion-panel expand>
                     <v-expansion-panel-content>
                       <div slot="header">Type</div>
@@ -133,7 +133,6 @@
                         <span class="grey--text">{{hotel.location}}</span>
                         <br>
                         <span class="grey--text">{{hotel.type}}: ${{hotel.price}}</span>
-                        <star-rating :star-size="20" :rating="hotel.rating" :read-only="true" :increment="0.01"></star-rating>
                       </div>
                     </v-card-title>
                     <v-card-actions>

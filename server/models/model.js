@@ -44,7 +44,7 @@ module.exports = {
 				var errorMessage = error.message;
 				reject(errorCode + errorMessage);
 			}).then((cred) => {
-				resolve({username: cred.displayName, email: cred.email})
+				resolve(cred)
 			});
 		});
 	},
@@ -299,76 +299,134 @@ module.exports = {
 		})
 	},
 
-	addRestaurantRating: function(title, user, rating, review) {
+	addFacebookUser: function(userid, email, name, accessToken, friends) {
 		return new Promise((resolve, reject) => {
-		  var id = camelCase(title) + '-' + camelCase(user);
-		  var docRef = db.collection('restaurantRating').doc(id);
+			
+			var id = camelCase(userid);
+			var docRef = db.collection('facebookUsers').doc(id);
 	
-		  var setRef = docRef.set({
-			title: title,
-			user: user,
-			rating: rating,
-			review: review
-		  }).then((ref) => {
-			resolve(ref);
-		  }).catch((err) => {
-			reject(err);
-		  });
+			var setRef = docRef.set({
+				userid: userid,
+				email: email,
+				name: name,
+				accessToken: accessToken,
+				friends: friends
+			}).then((ref) => {
+				resolve(ref);
+			}).catch((err) => {
+				reject(err);
+			});
 		});
+	},
+
+	getFacebookUser: function(userid) {
+		return new Promise((resolve, reject) => {
+		  db.collection("facebookUsers").where("userid", "==", userid)
+			.get()
+			.then(function(querySnapshot) {
+						var data = []
+			  querySnapshot.forEach(function(doc) {
+				// doc.data() is never undefined for query doc snapshots
+				data.push(doc.data());
+			  });
+						resolve(data);
+			})
+			.catch(function(error) {
+			  reject(error);
+			});
+		});
+	},
+	
+	getAllFacebookUsers: function () {
+		return new Promise((resolve, reject) => {
+			var docRef = db.collection('facebookUsers');
+			var data = []
+			var getRef = docRef.get().then(snapshot => {
+		      
+		      snapshot.forEach(doc => {
+		      	var entry = doc.data();
+		      	entry.id = doc.id;
+		        data.push(entry)
+		      });
+
+		      resolve(data);
+		    }).catch(err => {
+		      reject(err);
+		    });
+		})
+	},
+
+	addRestaurantRating: function(title, user, rating, review, userid) {
+			return new Promise((resolve, reject) => {
+				var id = camelCase(title) + '-' + camelCase(user);
+				var docRef = db.collection('restaurantRating').doc(id);
+		
+				var setRef = docRef.set({
+				title: title,
+				user: user,
+				rating: rating,
+				review: review,
+				userid: userid
+				}).then((ref) => {
+				resolve(ref);
+				}).catch((err) => {
+				reject(err);
+				});
+			});
 	  },
 	
 	  getRestaurantRating: function(title) {
-		return new Promise((resolve, reject) => {
-		  db.collection("restaurantRating").where("title", "==", title)
-			.get()
-			.then(function(querySnapshot) {
-						var data = []
-			  querySnapshot.forEach(function(doc) {
-				// doc.data() is never undefined for query doc snapshots
-				data.push(doc.data());
-			  });
-						resolve(data);
-			})
-			.catch(function(error) {
-			  reject(error);
+			return new Promise((resolve, reject) => {
+				db.collection("restaurantRating").where("title", "==", title)
+				.get()
+				.then(function(querySnapshot) {
+							var data = []
+					querySnapshot.forEach(function(doc) {
+					// doc.data() is never undefined for query doc snapshots
+					data.push(doc.data());
+					});
+							resolve(data);
+				})
+				.catch(function(error) {
+					reject(error);
+				});
 			});
-		});
 	  },
 	
 	  addAccomodationRating: function(title, user, rating, review) {
-		return new Promise((resolve, reject) => {
-		  var id = camelCase(title) + '-' + camelCase(user);
-		  var docRef = db.collection('accomodationRating').doc(id);
-	
-		  var setRef = docRef.set({
-			title: title,
-			user: user,
-			rating: rating,
-			review: review
-		  }).then((ref) => {
-			resolve(ref);
-		  }).catch((err) => {
-			reject(err);
-		  });
-		});
+			return new Promise((resolve, reject) => {
+				var id = camelCase(title) + '-' + camelCase(user);
+				var docRef = db.collection('accomodationRating').doc(id);
+		
+				var setRef = docRef.set({
+				title: title,
+				user: user,
+				rating: rating,
+				review: review
+				}).then((ref) => {
+				resolve(ref);
+				}).catch((err) => {
+				reject(err);
+				});
+			});
 	  },
 	
 	  getAccomodationRating: function(title) {
-		return new Promise((resolve, reject) => {
-		  db.collection("accomodationRating").where("title", "==", title)
-			.get()
-			.then(function(querySnapshot) {
-						var data = []
-			  querySnapshot.forEach(function(doc) {
-				// doc.data() is never undefined for query doc snapshots
-				data.push(doc.data());
-			  });
-						resolve(data);
-			})
-			.catch(function(error) {
-			  reject(error);
+			return new Promise((resolve, reject) => {
+				db.collection("accomodationRating").where("title", "==", title)
+				.get()
+				.then(function(querySnapshot) {
+							var data = []
+					querySnapshot.forEach(function(doc) {
+					// doc.data() is never undefined for query doc snapshots
+					data.push(doc.data());
+					});
+							resolve(data);
+				})
+				.catch(function(error) {
+					reject(error);
+				});
 			});
-		});
 	  }
 }
 

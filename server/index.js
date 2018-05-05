@@ -74,13 +74,76 @@ app.get('/fetchTravels', travel.getAllTravels);
 app.get('/fetchTravels/:id', travel.getTravel);
 app.post('/addTravel', travel.addTravel);
 
+app.post('/addFacebookUser', (req, res) => {
+    var userid = req.body.userid;
+    var email = req.body.email;
+    var name = req.body.name;
+    var accessToken = req.body.accessToken;
+    var friends = req.body.friends;
+
+    model.addFacebookUser(userid, email, name, accessToken, friends)
+    .then((result) => {
+        res.status = 200;
+        res.json({
+            'message': 'Added Successfully',
+            'obj': result
+        });
+    })
+    .catch((err) => {
+        res.status = 777;
+        res.json({
+            'message': 'Error Adding',
+            'obj': err
+        });
+    });
+});
+
+app.post('/getFacebookUser', (req, res) => {
+    var userid = req.body.userid;
+  
+    model.getFacebookUser(userid)
+    .then((result) => {
+        res.status = 200;
+        res.json({
+            'message': 'Gotten Successfully',
+            'obj': result
+        });
+    })
+    .catch((err) => {
+        res.status = 777;
+        res.json({
+            'message': 'Error Getting',
+            'obj': err
+        });
+    });
+});
+
+app.post('/getAllFacebookUsers', (req, res) => {
+    model.getAllFacebookUsers()
+    .then((result) => {
+        res.status = 200;
+        res.json({
+            'message': 'Gotten Successfully',
+            'obj': result
+        });
+    })
+    .catch((err) => {
+        res.status = 777;
+        res.json({
+            'message': 'Error Getting',
+            'obj': err
+        });
+    });
+});
+
 app.post('/addRestaurantRating', (req, res) => {
   var title = req.body.title;
   var user = req.body.user;
   var rating = req.body.rating;
   var review = req.body.review;
+  var userid = req.body.userid;
 
-  model.addRestaurantRating(title, user, rating, review)
+  model.addRestaurantRating(title, user, rating, review, userid)
   .then((result) => {
       res.status = 200;
       res.json({

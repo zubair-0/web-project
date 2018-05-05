@@ -44,17 +44,17 @@
                   ></v-text-field>
                 </v-flex>
                 
-                <v-flex xs8 offset-xs2 v-model="showFilters">
+                <v-flex xs8 offset-xs2>
                   <h1 class="subheading left">Price Range</h1>
                 </v-flex>
-                <v-flex xs4 offset-xs2 v-model="showFilters">
+                <v-flex xs4 offset-xs2>
                   <v-card>
                     <v-card-actions>
                       <v-slider @mouseup="filterResults" :max="5000" v-model="travelFilters.price" thumb-label step="500" ticks></v-slider>
                     </v-card-actions>
                   </v-card>
                 </v-flex>
-                <v-flex xs4 v-model="showFilters">
+                <v-flex xs4>
                   <v-text-field
                     name="input-1-3"
                     label="Hint Text"
@@ -65,7 +65,7 @@
                     disabled="true"
                   ></v-text-field>
                 </v-flex>
-                <v-flex class="mt-4" xs8 offset-xs2 v-model="showFilters">
+                <v-flex class="mt-4" xs8 offset-xs2>
                   <v-expansion-panel expand>
                     <v-expansion-panel-content>
                       <div slot="header" >Flight Class</div>

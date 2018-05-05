@@ -37,7 +37,7 @@
                   @keyup="filterResults"
                   ></v-text-field>
                 </v-flex>
-                <v-flex xs8 offset-xs2 v-model="showFilters">
+                <v-flex xs8 offset-xs2>
                   <v-expansion-panel expand>
                     <v-expansion-panel-content>
                       <div slot="header">Cuisine</div>
@@ -112,7 +112,6 @@
                         <span class="grey--text">{{restaurant.location}}</span>
                         <br>
                         <span class="grey--text">Cuisine: {{restaurant.cuisine}}</span>
-                        <star-rating :star-size="20" :rating="restaurant.rating" :read-only="true" :increment="0.01"></star-rating>
                       </div>
                     </v-card-title>
                     <v-card-actions>
@@ -262,10 +261,12 @@ export default {
             title: this.rateTitle,
             user: this.$store.state.username,
             rating: this.rateRating,
-            review: this.rateReview
+            review: this.rateReview,
+            userid: this.$store.state.userid
           };
+          console.log(fd)
           axios.post('http://localhost:3000/addRestaurantRating', fd).then((res) => {
-            console.log(res.status);
+            console.log(res);
             if (res.data.message != null) {
               if (res.data.message.toLowerCase().indexOf('error') !== -1) {
                 this.errorMessage = res.data.obj.message;
