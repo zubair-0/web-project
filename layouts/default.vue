@@ -536,8 +536,10 @@
         newTravelClass: '',
         newTravelPrice: '',
         selectedImage: '',
-        isBusinessUser: true,
-        withFacebook: false
+        isBusinessUser: false,
+        businessUsers: ['zubair.ejaz@live.com', 'zubair.ejaz@gmail.com'],
+        withFacebook: false,
+        appInitialized: false
       }
     },
     computed: {
@@ -595,45 +597,101 @@
                 this.username = this.signinEmail;
                 this.loginDialog = false;
 
-                this.$store.commit('update', this.loginEmail);
+                this.$store.commit('update', this.signinEmail);
                 this.$store.commit('setLogin');
-                if (this.signinEmail == 'zubair.ejaz@gmail.com') {
+                
+                if (this.businessUsers.includes(this.signinEmail)) {
                   this.isBusinessUser = true;
                 }
               }
             }
           })
       },
-      signInWithFacebook: function() {
-        var config = clientAccount;
-        firebase.initializeApp(config);
+      promisesignInWithFacebook: function() {
+        if (!this.appInitialized) {
+          var config = clientAccount;
+          firebase.initializeApp(config);
+          this.appInitialized = true;
+        }
 
         var provider = new firebase.auth.FacebookAuthProvider();
-        provider.addScope('user_friends');  // need the list of friends to get their reviews and rating on our app
+        //provider.addScope('user_friends');  // need the list of friends to get their reviews and rating on our app
 
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-          var token = result.credential.accessToken;
-          // The signed-in user info.
-          var user = result.user;
-          // ...
+        return new Promise((resolve, reject) => {
+          firebase.auth().signInWithPopup(provider).then(function(result) {
+            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+            // var token = result.credential.accessToken;
+            // The signed-in user info.
+            // var user = result.user;
+            // // ...
 
-          console.log(token);
-          console.log(user);
+            // console.log(token);
+            // console.log(user);
+            resolve(result);
+          }).catch(function(error) {
+            // // Handle Errors here.
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+            // // The email of the user's account used.
+            // var email = error.email;
+            // // The firebase.auth.AuthCredential type that was used.
+            // var credential = error.credential;
+            // // ...
+            reject(error);
+            // reject(errorCode + errorMessage + email + credential);
+          });
+	    	});
+      },
+      signInWithFacebook: function() {
+        this.promisesignInWithFacebook()
+        .then((res) => {
+
+          var token = res.credential.accessToken;
+          var user = res.user;
+          var userInfo = res.additionalUserInfo.profile;
+
+          this.loggedIn = true;
+          this.username = user.displayName;
+          this.loginDialog = false;
+          this.withFacebook = true;
+
+          this.$store.commit('update', user.displayName);
+          this.$store.commit('setLogin');
+          if (this.businessUsers.includes(user.email)) {
+            console.log("Business User");
+            this.isBusinessUser = true;
+          }
+          else {
+            console.log("NOT A Business User");
+          }
+
+          // console.log(token);
+          // console.log(user);
+          // console.log(userInfo);
+
+          var id = userInfo.id;
+
+          axios.get('https://graph.facebook.com/v3.0/' + id + '/friends?access_token=' + token)
+          .then((result) => {
+            // console.log(result);
+
+            var friends = result.data.data;
+            var total_friends = result.data.summary.total_count;
+
+            console.log("Friend List with our App");
+            console.log(friends);
+            console.log(total_friends);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        })
+        .catch((err) => {
           
-        }).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
-          console.log(error);
-
-          // reject(errorCode + errorMessage + email + credential);
-        });
+          console.log(err);
+        
+        })
       },
       signOutWithFacebook: function() {
         firebase.auth().signOut().then(function() {
@@ -646,13 +704,12 @@
       logOut: function() {
         if (this.withFacebook) {
           this.withFacebook = false;
-          signOutWithFacebook();
+          this.signOutWithFacebook();
         }
-        else {
-          this.loggedIn = false;
-        }
+
+        this.loggedIn = false;
         this.isBusinessUser = false;
-        $store.commit('unsetLogin');
+        this.$store.commit('unsetLogin');
       },
       readFile : function ()
       {
