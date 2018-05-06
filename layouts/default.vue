@@ -541,7 +541,8 @@
         withFacebook: false,
         appInitialized: false,
         friendsList: [],
-        total_friends: 0
+        total_friends: 0,
+        friends: []
       }
     },
     computed: {
@@ -676,15 +677,17 @@
           var id = userInfo.id;
           axios.get('https://graph.facebook.com/v3.0/' + id + '/friends?access_token=' + token)
           .then((result) => {
-            console.log(result.data.data);
-
+            // console.log(result);
+            // this.friendsList = result.data.data;
             result.data.data.forEach(element => {
               this.friendsList.push(element.id)
             });
             this.total_friends = result.data.summary.total_count;
             
-            // console.log("Friend List with our App");
+            console.log("Friend List with our App");
             console.log(this.friendsList);
+            
+            this.$store.commit('setFriends', this.friendsList);
             console.log(this.total_friends);
           })
           .catch((error) => {

@@ -31,7 +31,7 @@
         <v-card-text>
           <p>{{item.user}}</p>
           <v-spacer></v-spacer>
-          <p v-if="item.userid != '0' && typeof(item.userid) !== 'undefined'">"Facebook Friend"</p>
+          <p v-if="$store.state.friends.includes(item.userid) && typeof(item.userid) !== 'undefined'">"Facebook Friend"</p>
           <v-icon v-for="i in item.rating" :key="i">star</v-icon>
           <br/>
           <br/>

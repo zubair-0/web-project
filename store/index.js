@@ -6,6 +6,7 @@ const bindUser = () => {
       username: '',
       userid: '',
       loggedIn: true,
+      friends: []
     },
     mutations: {
       update (state, name) {
@@ -16,6 +17,9 @@ const bindUser = () => {
       },
       setLogin (state) {
         state.loggedIn = true;
+      },
+      setFriends (state, list) {
+        state.friends = list;
       },
       unsetLogin (state) {
         state.loggedIn = false;
