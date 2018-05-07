@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 const bindUser = () => {
   return new Vuex.Store({
     state: {
-      username: '',
+      username: 'zubair.ejaz@gmail.com',
       userid: '',
       loggedIn: true,
       friends: []

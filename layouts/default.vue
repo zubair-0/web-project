@@ -131,7 +131,6 @@
                   <input @change="onImageUpload" type="file" hint="Select Image" required/>
                 </v-flex>
               </v-layout>
-              <star-rating :star-size="20" :increment="0.01"></star-rating>
             </v-container>
             <small>*indicates required field</small>
           </v-card-text>
@@ -214,7 +213,6 @@
                   <input @change="onImageUpload" type="file" hint="Select Image" required/>
                 </v-flex>
               </v-layout>
-              <star-rating :star-size="20" :increment="0.01"></star-rating>
             </v-container>
             <small>*indicates required field</small>
           </v-card-text>
@@ -501,7 +499,7 @@
         loginDialog: false,
         signinEmail: '',
         signinPassword: '',
-        loggedIn: false,
+        loggedIn: true,
         signupDialog: false,
         miniVariant: true,
         right: true,
@@ -536,7 +534,7 @@
         newTravelClass: '',
         newTravelPrice: '',
         selectedImage: '',
-        isBusinessUser: false,
+        isBusinessUser: true,
         businessUsers: ['zubair.ejaz@live.com', 'zubair.ejaz@gmail.com'],
         withFacebook: false,
         appInitialized: false,
