@@ -226,6 +226,7 @@ export default {
     asyncData () {
         return new Promise((resolve, reject) => {
             axios.get('http://localhost:3000/fetchRestaurants').then(res => {
+                // console.log(res);
                 resolve({
                     filteredRestaurants: res.data,
                     restaurants: res.data

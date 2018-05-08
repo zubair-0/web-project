@@ -309,7 +309,6 @@
                 <v-text-field
                     name="email"
                     label="Email"
-                    id="email"
                     v-model="signinEmail"
                     type="email"
                     hint="Example: john.doe@mail.com"
@@ -322,7 +321,6 @@
                 <v-text-field
                     name="password"
                     label="Password"
-                    id="password"
                     v-model="signinPassword"
                     type="password"
                     required
@@ -365,7 +363,6 @@
                   <v-text-field
                     name="email"
                     label="Email"
-                    id="email"
                     v-model="email"
                     type="email"
                     hint="Example: john.doe@mail.com"
@@ -378,7 +375,6 @@
                   <v-text-field
                     name="password"
                     label="Password"
-                    id="password"
                     v-model="password"
                     type="password"
                     required

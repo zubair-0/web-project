@@ -50,7 +50,7 @@
                 <v-flex xs4 offset-xs2>
                   <v-card>
                     <v-card-actions>
-                      <v-slider @mouseup="filterResults" :max="5000" v-model="travelFilters.price" thumb-label step="500" ticks></v-slider>
+                      <v-slider @mouseup="filterResults" :max="500" v-model="travelFilters.price" thumb-label step="10" ticks></v-slider>
                     </v-card-actions>
                   </v-card>
                 </v-flex>
@@ -146,7 +146,11 @@
                   </v-expansion-panel>
                 </v-flex>
 
-                <v-flex class="my-3" xs12 sm6 md4 lg3 v-for="flight in filteredTravels" :key="flight.title">
+                <!-- <v-flex
+                  class="my-3"
+                  xs12 sm6 md4 lg3
+                  v-for="flight in filteredTravels" :key="flight.title"
+                >
                   <v-card>
                     <v-card-media
                       v-bind:src="flight.imgUrl"
@@ -168,8 +172,65 @@
                       </nuxt-link>
                       <v-spacer></v-spacer>
                     </v-card-actions>
+                  </v-card>BOS
+                </v-flex> -->
+
+                <v-flex
+                  class="my-3"
+                  xs12 sm6 md4 lg3
+                  v-for="flight in filteredTravels" :key="flight"
+                >
+                  <v-card>
+                    <v-card-media
+                      :src="require('@/static/main.jpg')"
+                      height="200px"
+                    >
+                    </v-card-media>
+                    <v-card-title primary-title>
+                      <div class="text-xs-left">
+                        <div class="headline">{{flight.airline}}</div>
+                        <span class="grey--text">{{flightOrigin}} - {{flight.destination}}</span>
+                        <br>
+                        <span class="grey--text">Business Class, Price: ${{flight.price}}</span>
+                      </div>
+                    </v-card-title>
+                    <v-card-actions>
+                      <v-btn flat>Share</v-btn>
+                      <!-- <nuxt-link :to="'/travels/' + camelify(flight.airline)">
+                        <v-btn flat color="primary">Details</v-btn>
+                      </nuxt-link> -->
+                      <v-spacer></v-spacer>
+                    </v-card-actions>
                   </v-card>
                 </v-flex>
+
+                <!-- <v-flex
+                  class="my-3"
+                  xs12 sm6 md4 lg3
+                  v-for="flight in apiTravels" :key="flight.airline"
+                  
+                >
+                  <v-card>
+                    <v-card-media
+                      :src="require('@/static/main.jpg')"
+                      height="200px"
+                    >
+                    </v-card-media>
+                    <v-card-title primary-title>
+                      <div class="text-xs-left">
+                        <div class="headline">{{flight.airline}}</div>
+                        <span class="grey--text">{{flightOrigin}} - {{flight.destination}}</span>
+                        <br>
+                        <span class="grey--text">Business Class , Price: ${{flight.price}}</span>
+                      </div>
+                    </v-card-title>
+                    <v-card-actions>
+                      <v-btn flat>Share</v-btn>
+                      <v-btn flat color="primary">Details</v-btn>
+                      <v-spacer></v-spacer>
+                    </v-card-actions>
+                  </v-card>
+                </v-flex> -->
               </v-layout>
             </v-container>
           </v-flex>
@@ -234,36 +295,55 @@ export default {
             },
             flightClasses: ['First', 'Business', 'Economy'],
             filteredTravels: [],
-            search: ''
+            search: '',
+            apiTravels: [],
+            flightOrigin: ''
         };
     },
     asyncData () {
+        // return new Promise((resolve, reject) => {
+        //     axios.get('http://localhost:3000/fetchTravels').then(res => {
+        //       console.log("Travels");
+        //       console.log(res.data);
+        //       resolve({
+        //         filteredTravels: res.data,
+        //         travels: res.data
+        //       })
+        //     }).catch(err => {
+        //           console.log(err);
+        //           reject(err);
+        //     });
+        // });
         return new Promise((resolve, reject) => {
-            axios.get('http://localhost:3000/fetchTravels').then(res => {
-                resolve({
-                    filteredTravels: res.data,
-                    travels: res.data
-                })
+            axios.get('https://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=NYC&departure_date=2018-06-09--2018-06-11&duration=7--9&max_price=500&apikey=aVaGE5SRpT4SwRHDMpPJGJnkXs0bPtvl').then(res => {
+              console.log("Travels API");
+              console.log(JSON.stringify(res.data, null, 4));
+              resolve({
+                  filteredTravels: res.data.results,
+                  travels: res.data.results,
+                  flightOrigin: res.data.origin
+              })
             }).catch(err => {
                 console.log(err);
                 reject(err);
             })
+            // https://api.sandbox.amadeus.com//v1.2, null, 4)/flights/affiliate-search?apikey=aVaGE5SRpT4SwRHDMpPJGJnkXs0bPtvl&origin=LON&destination=DUB&departure_date=2018-06-25
+            // https://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=BOS&departure_date=2015-09-06--2015-09-26&duration=7--9&max_price=500&apikey=aVaGE5SRpT4SwRHDMpPJGJnkXs0bPtvl
         });
     },
     methods: {
         filterResults: function () {
             this.filteredTravels = this.travels.filter(resultant => {
                 if (this.travelFilters.price >= resultant.price) {
-                    if (this.travelFilters.classes.includes(resultant.class) || this.travelFilters.classes.length === 0) {
-                        if (this.travelFilters.airlines.includes(resultant.title) || this.travelFilters.airlines.length === 0) {
-                            if (resultant.source.toLowerCase().includes(this.search.toLowerCase())) {
+                    if (this.travelFilters.airlines.includes(resultant.airline) || this.travelFilters.airlines.length === 0) {
+                            if (this.flightOrigin.toLowerCase().includes(this.search.toLowerCase())) {
                                 return true;
                             }
 
                             if (resultant.destination.toLowerCase().includes(this.search.toLowerCase())) {
                                 return true;
                             }
-                        }
+                        
                     }
                 }
                 return false;
